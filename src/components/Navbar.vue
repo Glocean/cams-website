@@ -15,6 +15,8 @@
                 <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
             </a>
         </template>
+        <template #end>
+        </template>
     </p-menu>
 </template>
 
@@ -35,20 +37,16 @@ export default {
                 route: '/about'
             },
             {
-                label: 'Projects',
+                label: 'Taskmaster',
                 icon: 'pi pi-search',
                 items: [
                     {
-                        label: 'Components',
+                        label: '2022',
                         icon: 'pi pi-bolt'
                     },
                     {
-                        label: 'Blocks',
+                        label: '2023',
                         icon: 'pi pi-server'
-                    },
-                    {
-                        label: 'UI Kit',
-                        icon: 'pi pi-pencil'
                     },
                     {
                         label: 'Templates',
@@ -82,7 +80,6 @@ export default {
     width: 100%;
     border-radius: 0px;
     border: none;
-    /*position: fixed;*/
 }
 
 </style>
