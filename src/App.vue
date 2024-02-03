@@ -20,9 +20,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-body{
+html, body{
+  height: 100%;
   margin: 0px;
   padding: 0px;
 }

@@ -1,17 +1,18 @@
 <template>
     <p-menu class="navbar" :model="items">
         <template #start>
+            <p-image alt="logo" :src="require('@/assets/Logo_shadow.png')" width="50" class="mr-2"/>
         </template>
         <template #item="{ item, props, hasSubmenu }">
             <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
                     <span :class="item.icon" />
-                    <span class="ml-2">{{ item.label }}</span>
+                    <span class="ml-2 nav-label">{{ item.label }}</span>
                 </a>
             </router-link>
             <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
                 <span :class="item.icon" />
-                <span class="ml-2">{{ item.label }}</span>
+                <span class="ml-2 nav-label">{{ item.label }}</span>
                 <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
             </a>
         </template>
@@ -27,46 +28,32 @@ export default {
     return{
         items: [
             {
-                label: 'Home',
+                label: 'HOME',
                 icon: 'pi pi-home',
                 route: '/'
             },
             {
-                label: 'About',
+                label: 'ABOUT',
                 icon: 'pi pi-star',
                 route: '/about'
             },
             {
-                label: 'Taskmaster',
-                icon: 'pi pi-search',
+                label: 'TASKMASTER',
+                icon: 'pi pi-envelope',
                 items: [
                     {
                         label: '2022',
-                        icon: 'pi pi-bolt'
+                        route: '/taskmaster/2022'
                     },
                     {
                         label: '2023',
-                        icon: 'pi pi-server'
-                    },
-                    {
-                        label: 'Templates',
-                        icon: 'pi pi-palette',
-                        items: [
-                            {
-                                label: 'Apollo',
-                                icon: 'pi pi-palette'
-                            },
-                            {
-                                label: 'Ultima',
-                                icon: 'pi pi-palette'
-                            }
-                        ]
+                        route: '/taskmaster/2023'
                     }
                 ]
             },
             {
-                label: 'Contact',
-                icon: 'pi pi-envelope'
+                label: 'CONTACT',
+                icon: 'pi pi-phone'
             }
         ]
     }
@@ -76,10 +63,14 @@ export default {
 
 <style>
 
-.navbar{
+.navbar {
     width: 100%;
     border-radius: 0px;
     border: none;
+}
+
+.logo {
+    max-height: 10%;
 }
 
 </style>

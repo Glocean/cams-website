@@ -1,29 +1,33 @@
 <template>
   <div class="home">
-    <video autoplay muted loop id="myVideo">
-      <source src="@/assets/ocean_background_loop.mp4" type="video/mp4">
+    <video autoplay muted loop id="myVideo" class="fadein animation-duration-1000">
+      <source :src="require('@/assets/ocean_background_loop.mp4')" type="video/mp4">
     </video>
     <div id="overlay"/>
-    <div class="content">
-      <img alt="Vue logo" src="../assets/logo.png" />
-      <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div class="content fadein animation-ease-in animation-duration-1000" onload="this.style.opacity='1';">
+          <div class="text block">WELCOME</div>
+          <p-image class="block" alt="Headshot" size="xlarge" shape="circle" :src="require('@/assets/headshot.png')" />
+          <p-card class="flex block" style="width: 40rem;">
+            <template #content>
+              <p>
+                Hi, my name is Cameron, and I am a Full Stack Software Developer. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue.js to learn about web deployment. My hobbies include playing video games (my favorite is an indie game called Dredge), collecting board games and dice, reading/writing, and playing Dungeons and Dragons. I also enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above)! I also love the ocean; I hope to one day learn to scuba dive and my favorite animal is a shark!
+              </p>
+            </template>
+          </p-card>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
   name: "HomeView",
   components: {
-    HelloWorld,
   },
 };
 </script>
 
-<style>
+<style scoped>
 * {
   box-sizing: border-box;
 }
@@ -32,7 +36,7 @@ export default {
   position: fixed;
   right: 0;
   bottom: 0;
-  min-width: 100%; 
+  min-width: 100%;
   min-height: 100%;
   z-index: -1;
 }
@@ -47,11 +51,18 @@ export default {
   z-index: -1;
 }
 
-.content {
-  bottom: 0;
-  width: 100%;
+.home {
+  display: grid;
   height: 100%;
-  padding: 20px;
+  width: 100%;
+}
+
+.content {
+  height: -webkit-fill-available;
+  display: grid;
+  place-items: center;
+  font-family: Garamond !important;
+  font-size: 3.2vw;
 }
 
 </style>

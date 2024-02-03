@@ -11,6 +11,9 @@ import '/node_modules/primeflex/primeflex.css'
 //Components
 import Button from "primevue/button"
 import Menubar from 'primevue/menubar';
+import Image from 'primevue/image';
+import Avatar from 'primevue/avatar';
+import Card from 'primevue/card';
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -19,5 +22,8 @@ app.use(router);
 // Use Components
 app.component('p-button', Button);
 app.component('p-menu', Menubar);
+app.component('p-image', Image);
+app.component('p-avatar', Avatar);
+app.component('p-card', Card);
 
 app.mount("#app");
