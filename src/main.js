@@ -14,6 +14,7 @@ import Menubar from 'primevue/menubar';
 import Image from 'primevue/image';
 import Avatar from 'primevue/avatar';
 import Card from 'primevue/card';
+import Divider from 'primevue/divider';
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -25,5 +26,6 @@ app.component('p-menu', Menubar);
 app.component('p-image', Image);
 app.component('p-avatar', Avatar);
 app.component('p-card', Card);
+app.component('p-divider', Divider);
 
 app.mount("#app");
