@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
-      <source src="https://i.imgur.com/x0wxg6R.mp4" type="video/mp4">
+      <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
     </video>
     <div id="overlay"/>
     <div class="content">
