@@ -1,6 +1,8 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <li v-for="item in answer" :key="item.title">
+      {{ item.Title }}
+    </li>
     <div>{{ answer }}</div>
   </div>
 </template>
@@ -9,7 +11,7 @@
 import axios from "axios";
 
 export default {
-  name: "AboutView",
+  name: "GameView",
   data() {
     return {
       answer: {},

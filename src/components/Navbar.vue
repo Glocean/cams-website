@@ -33,9 +33,9 @@ export default {
                 route: '/'
             },
             {
-                label: 'ABOUT',
-                icon: 'pi pi-star',
-                route: '/about'
+                label: 'GAMES',
+                icon: 'pi pi-tv',
+                route: '/games'
             },
             {
                 label: 'TASKMASTER',
