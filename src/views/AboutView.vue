@@ -21,7 +21,16 @@ export default {
       console.log(request)
       const { data } = await axios.get(request);
       console.log(data)
-      this.answer = data.values
+      var input = data.values
+      const keys = ["Title", "Completion", "Finished Date", "Hours", "Genre", "Rating", "Reccomend", "Return"];
+      this.answer = input.reduce(function(acc, cur, i) {
+        var test = cur.reduce(function(acc, cur, i) {
+          acc[keys[i]] = cur;
+          return acc;
+        }, {});
+        acc[i] = test;
+        return acc;
+      }, []);
     }
   },
   beforeMount() {
