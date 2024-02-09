@@ -12,8 +12,10 @@
         <div class="flex flex-row align-items-center justify-content-center m-2">
           <p-avatar class="w-28rem h-28rem" size="xlarge" shape="circle" :image="require('@/assets/headshot.png')"/>
           <div class="flex flex-column m-8">
-            <div class="flex flex-row align-items-center justify-content-evenly">Cameron Dahr</div>
-            <p-divider class="flex flex-row align-items-center justify-content-evenly my-divider"></p-divider>
+            <div class="flex flex-row align-items-center justify-content-center">Cameron Dahr</div>
+            <div class="flex flex-row align-items-center justify-content-center m-3">
+              <p-divider class="my-divider w-10"/>
+            </div>
             <div class="flex flex-row align-items-center justify-content-evenly">
               <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
                 <template #icon>
