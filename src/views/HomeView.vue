@@ -6,17 +6,17 @@
     <div id="overlay"/>
     <div class="content fadein animation-ease-in animation-duration-1000" onload="this.style.opacity='1';">
       <div class="flex flex-column">  
-        <div class="align-items-center justify-content-center m-8" id="title">
+        <div class="align-items-center justify-content-center ml-0 mr-0 m-8" id="title">
           WELCOME
         </div>
-        <div class="flex flex-row align-items-center justify-content-center m-2">
-          <p-avatar class="w-28rem h-28rem" size="xlarge" shape="circle" :image="require('@/assets/headshot.png')"/>
+        <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
+          <p-avatar class="h-20rem w-20rem" shape="circle" :image="require('@/assets/headshot.png')"/>
           <div class="flex flex-column m-8">
             <div class="flex flex-row align-items-center justify-content-center">Cameron Dahr</div>
             <div class="flex flex-row align-items-center justify-content-center m-3">
               <p-divider class="my-divider w-10"/>
             </div>
-            <div class="flex flex-row align-items-center justify-content-evenly">
+            <div class="flex flex-row align-items-center justify-content-around flex-wrap">
               <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
                 <template #icon>
                   <a href="https://github.com/C-Dahr" target="_blank">
@@ -63,9 +63,9 @@
           </div>
         </div>
         <div class="flex flex-row align-items-center justify-content-center m-5">
-          <p-card style="width: 70rem;">
+          <p-card style="width: 45%;">
             <template #content>
-              <p class="text-2xl">
+              <p id="card-text">
                 Hi, my name is Cameron, and I am a Full Stack Software Developer. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue 3 to learn about web deployment. My hobbies include playing video games (my favorite is an indie game called Dredge), collecting board games and dice, reading/writing, and playing Dungeons and Dragons. I also enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above)! I also love the ocean; I hope to one day learn to scuba dive and my favorite animal is an octopus!
               </p>
             </template>
@@ -120,11 +120,15 @@ export default {
   display: grid;
   place-items: center;
   font-family: Garamond !important;
-  font-size: 3.2vw;
+  font-size: 6vh;
 }
 
 #title {
-  font-size: 4.2vw;
+  font-size: 8vh;
+}
+
+#card-text {
+  font-size: 2vh;
 }
 
 .p-divider.p-divider-horizontal:before {
