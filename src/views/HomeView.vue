@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <video autoplay muted loop id="myVideo" class="fadein animation-duration-1000">
-      <source :src="require('@/assets/ocean_background_loop.mp4')" type="video/mp4">
+    <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
+      <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
     </video>
     <div id="overlay"/>
-    <div class="content fadein animation-ease-in animation-duration-1000" onload="this.style.opacity='1';">
-      <div class="flex flex-column align-items-center justify-content-center">  
+    <div class="content">
+      <div class="flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">  
         <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
           <p-avatar class="h-25rem w-25rem" shape="circle" :image="require('@/assets/headshot.png')"/>
           <div class="flex flex-column m-8">
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="flex flex-row align-items-center justify-content-center m-5">
-          <p-card style="width: 45%;">
+          <p-card style="width: 45%;background:rgba(0, 0, 0, 0.5);">
             <template #content>
               <p id="card-text">
                 Hi, my name is Cameron, and I am a Full Stack Software Developer. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue 3 to learn about web deployment. My hobbies include playing video games (my favorite is an indie game called Dredge), collecting board games and dice, reading/writing, and playing Dungeons and Dragons. I also enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above)! I also love the ocean; I hope to one day learn to scuba dive and my favorite animal is an octopus!
