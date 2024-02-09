@@ -5,12 +5,9 @@
     </video>
     <div id="overlay"/>
     <div class="content fadein animation-ease-in animation-duration-1000" onload="this.style.opacity='1';">
-      <div class="flex flex-column">  
-        <div class="align-items-center justify-content-center ml-0 mr-0 m-8" id="title">
-          WELCOME
-        </div>
+      <div class="flex flex-column align-items-center justify-content-center">  
         <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
-          <p-avatar class="h-20rem w-20rem" shape="circle" :image="require('@/assets/headshot.png')"/>
+          <p-avatar class="h-25rem w-25rem" shape="circle" :image="require('@/assets/headshot.png')"/>
           <div class="flex flex-column m-8">
             <div class="flex flex-row align-items-center justify-content-center">Cameron Dahr</div>
             <div class="flex flex-row align-items-center justify-content-center m-3">
@@ -111,7 +108,7 @@ export default {
 
 .home {
   display: grid;
-  height: 100%;
+  height: -webkit-fill-available;
   width: 100%;
 }
 
