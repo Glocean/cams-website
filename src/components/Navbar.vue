@@ -6,12 +6,12 @@
         <template #item="{ item, props, hasSubmenu }">
             <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                    <span :class="item.icon" />
+                    <font-awesome-icon :icon="item.icon" />
                     <span class="ml-2 nav-label">{{ item.label }}</span>
                 </a>
             </router-link>
             <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-                <span :class="item.icon" />
+                <font-awesome-icon :icon="item.icon" />
                 <span class="ml-2 nav-label">{{ item.label }}</span>
                 <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
             </a>
@@ -29,17 +29,17 @@ export default {
         items: [
             {
                 label: 'HOME',
-                icon: 'pi pi-home',
+                icon: 'fa-solid fa-house',
                 route: '/'
             },
             {
                 label: 'GAMES',
-                icon: 'pi pi-tv',
+                icon: 'fa-solid fa-gamepad',
                 route: '/games'
             },
             {
                 label: 'TASKMASTER',
-                icon: 'pi pi-envelope',
+                icon: 'fa-solid fa-envelope',
                 items: [
                     {
                         label: '2022',
@@ -53,7 +53,7 @@ export default {
             },
             {
                 label: 'CONTACT',
-                icon: 'pi pi-phone'
+                icon: 'fa-solid fa-phone'
             }
         ]
     }

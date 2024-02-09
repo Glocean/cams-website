@@ -27,6 +27,9 @@ import { faTwitch } from "@fortawesome/free-brands-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faGamepad } from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -35,6 +38,9 @@ library.add(faTwitch);
 library.add(faYoutube);
 library.add(faGithub);
 library.add(faLinkedin);
+library.add(faGamepad);
+library.add(faHouse);
+library.add(faEnvelope);
 
 const app = createApp(App);
 app.use(PrimeVue);
