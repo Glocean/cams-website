@@ -13,7 +13,7 @@
           <p-avatar class="w-28rem h-28rem" size="xlarge" shape="circle" :image="require('@/assets/headshot.png')"/>
           <div class="flex flex-column m-8">
             <div class="flex flex-row align-items-center justify-content-evenly">Cameron Dahr</div>
-            <p-divider class="flex flex-row align-items-center justify-content-evenly" style="border-color:white;"></p-divider>
+            <p-divider class="flex flex-row align-items-center justify-content-evenly my-divider"></p-divider>
             <div class="flex flex-row align-items-center justify-content-evenly">
               <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
                 <template #icon>
@@ -123,6 +123,11 @@ export default {
 
 #title {
   font-size: 4.2vw;
+}
+
+.p-divider.p-divider-horizontal:before {
+    border-top: 1px #ffffff;
+    border-top-style: solid;
 }
 
 </style>
