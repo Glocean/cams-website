@@ -1,10 +1,6 @@
 <template>
   <div class="games">
-    <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
-      <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
-    </video>
-    <div id="overlay"/>
-    <div class="content flex flex-column align-items-center justify-content-center m-5">
+    <div class="flex flex-column align-items-center justify-content-center m-5">
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
         <p-datatable v-model:filters="filters" :value="games" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
                   filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;">
@@ -188,41 +184,10 @@ export default {
 
 <style scoped>
 
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  z-index: -1;
-}
-
-#overlay {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: -1;
-}
-
 .games {
   display: grid;
   height: -webkit-fill-available;
   width: 100%;
-}
-
-.content {
-  height: -webkit-fill-available;
-  display: grid;
-  place-items: center;
-  font-family: Garamond !important;
-  font-size: 6vh;
-}
-
-.p-paginator {
-  border-radius: 0 !important;
 }
 
 </style>
