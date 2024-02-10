@@ -3,7 +3,7 @@
     <div class="flex flex-column align-items-center justify-content-center m-5">
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
         <p-datatable v-model:filters="filters" :value="games" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
-                  filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;">
+                  filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;height: 50rem">
           <template #header>
             <div class="flex justify-content-between">
               <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
@@ -15,7 +15,11 @@
               </p-iconField>
             </div>
           </template>
-          <template #empty> No customers found. </template>
+          <template #empty>
+            <p class="flex flex-column align-items-center justify-content-center">
+              No games found.
+            </p>
+          </template>
           <template #loading> Loading customers data. Please wait. </template>
           <p-column expander style="width: 5rem" />
           <p-column field="title" header="Title" sortable style="min-width: 12rem">
@@ -49,12 +53,16 @@
           </p-column>
           <p-column field="genre" header="Genres" sortable style="min-width: 12rem">
             <template #body="{ data }">
-              <p-tag v-for="item in formatTags(data.genre)" :value=item severity="secondary" v-bind:key="item" class="m-1"/>
+              <div v-if=data.genre>
+                <p-tag v-for="item in formatTags(data.genre)" :value=item severity="secondary" v-bind:key="item" class="m-1"/>
+              </div>
             </template>
           </p-column>
           <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
-              <p-tag :value="data.rating" :severity="getRatingSeverity(data.rating)" />
+              <div v-if=data.rating>
+                <p-tag :value="data.rating" :severity="getRatingSeverity(data.rating)" />
+              </div>
             </template>
             <template #filter="{ filterModel }">
               <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
