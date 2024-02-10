@@ -17,6 +17,9 @@ import Avatar from 'primevue/avatar';
 import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
+import DataView from 'primevue/dataview';
+import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
+import Dropdown from 'primevue/dropdown';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -55,5 +58,8 @@ app.component('p-avatar', Avatar);
 app.component('p-card', Card);
 app.component('p-divider', Divider);
 app.directive('tooltip', Tooltip);
+app.component('p-dataView', DataView);
+app.component('p-dataViewLayoutOptions', DataViewLayoutOptions);
+app.component('p-dropdown', Dropdown);
 
 app.mount("#app");
