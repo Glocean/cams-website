@@ -70,6 +70,11 @@
               </p-multiSelect>
             </template>
           </p-column>
+          <template #expansion="slotProps">
+            <div class="p-3">
+              <h5>Details for {{ slotProps.data.title }}</h5>
+            </div>
+          </template>
         </p-datatable>
       </div>
       <!--<div>{{ games }}</div>-->
