@@ -20,6 +20,19 @@ import Tooltip from 'primevue/tooltip';
 import DataView from 'primevue/dataview';
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Dropdown from 'primevue/dropdown';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';
+import Row from 'primevue/row';
+import MultiSelect from 'primevue/multiselect';
+import InputText from 'primevue/inputtext';
+import Calendar from 'primevue/calendar';
+import InputNumber from 'primevue/inputnumber';
+import Tag from 'primevue/tag';
+import ProgressBar from 'primevue/progressbar';
+import Slider from 'primevue/slider';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -61,5 +74,18 @@ app.directive('tooltip', Tooltip);
 app.component('p-dataView', DataView);
 app.component('p-dataViewLayoutOptions', DataViewLayoutOptions);
 app.component('p-dropdown', Dropdown);
+app.component('p-datatable', DataTable);
+app.component('p-column', Column);
+app.component('p-columnGroup', ColumnGroup);
+app.component('p-row', Row);
+app.component('p-multiSelect', MultiSelect);
+app.component('p-inputText', InputText);
+app.component('p-calendar', Calendar);
+app.component('p-inputnumber', InputNumber);
+app.component('p-tag', Tag);
+app.component('p-progressbar', ProgressBar);
+app.component('p-slider', Slider);
+app.component('p-iconField', IconField);
+app.component('p-inputIcon', InputIcon);
 
 app.mount("#app");

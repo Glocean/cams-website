@@ -5,43 +5,41 @@
     </video>
     <div id="overlay"/>
     <div class="content flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">
-        <p-dataView :value="games" paginator :rows="5" :sortOrder="sortOrder" :sortField="sortField" class="m-5">
-            <template #header>
-                <p-dropdown v-model="sortKey" :options="sortOptions" optionLabel="label" placeholder="Sort By Price" @change="onSortChange($event)" />
-            </template>
-            <template #list="slotProps">
-                <div class="grid grid-nogutter">
-                    <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
-                        <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" :class="{ 'border-top-1 surface-border': index !== 0 }">
-                            <div class="md:w-10rem relative">
-                                <img class="block xl:block mx-auto border-round w-full" :src="require('@/assets/headshot.png')" :alt="item.name" />
-                                <Tag :value="item.inventoryStatus" severity="success" class="absolute" style="left: 4px; top: 4px"></Tag>
-                            </div>
-                            <div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
-                                <div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
-                                    <div>
-                                        <div class="text-lg font-medium text-900 mt-2">{{ item.title }}</div>
-                                    </div>
-                                    <div class="surface-100 p-1" style="border-radius: 30px">
-                                        <div class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2" style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
-                                            <span class="text-900 font-medium text-sm">{{ item.rating }}</span>
-                                            <i class="pi pi-star-fill text-yellow-500"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex flex-column md:align-items-end gap-5">
-                                    <span class="text-xl font-semibold text-900">${{ item.price }}</span>
-                                    <div class="flex flex-row-reverse md:flex-row gap-2">
-                                        <Button icon="pi pi-heart" outlined></Button>
-                                        <Button icon="pi pi-shopping-cart" label="Buy Now" :disabled="item.inventoryStatus === 'OUTOFSTOCK'" class="flex-auto md:flex-initial white-space-nowrap"></Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <p-datatable v-model:filters="filters" :value="games" paginator showGridlines :rows="10" dataKey="id"
+                filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title', 'completion', 'date', 'hours', 'rating']">
+        <template #header>
+          <div class="flex justify-content-between">
+            <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+            <p-iconField iconPosition="left">
+              <p-inputIcon>
+                <i class="pi pi-search" />
+              </p-inputIcon>
+              <p-inputText v-model="filters['global'].value" placeholder="Keyword Search" />
+            </p-iconField>
+          </div>
+        </template>
+        <template #empty> No customers found. </template>
+        <template #loading> Loading customers data. Please wait. </template>
+        <p-column field="title" header="Title" sortable style="min-width: 12rem">
+          <template #body="{ data }">
+            {{ data.title }}
+          </template>
+        </p-column>
+        <p-column header="Completion" filterField="completion" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
+          <template #body="{ data }">
+            <p-tag :value="data.completion" :severity="getSeverity(data.completion)" />
+          </template>
+          <template #filter="{ filterModel }">
+            <p-multiSelect v-model="filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter">
+              <template #option="slotProps">
+                <div class="flex align-items-center gap-2">
+                  <p-tag :value="slotProps.option" :severity="getSeverity(slotProps.option)" />
                 </div>
-            </template>
-        </p-dataView>
+              </template>
+            </p-multiSelect>
+          </template>
+        </p-column>
+      </p-datatable>
       <div>{{ games }}</div>
     </div>
   </div>
@@ -49,29 +47,31 @@
 
 <script>
 import axios from "axios";
+import { FilterMatchMode, FilterOperator } from 'primevue/api'
 
 export default {
   name: "GameView",
   data() {
     return {
       games: null,
-      sortKey: null,
-      sortOrder: null,
-      sortField: null,
-      sortOptions: [
-        { label: 'Title A to Z', value: 'title' },
-        { label: 'Title Z to A', value: '!title' }
-      ]
+      customers: null,
+      filters: null,
+      statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
+      loading: true
     };
+  },
+  created() {
+    this.initFilters();
+  },
+  mounted() {
   },
   methods: {
     async getGames() {
       const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:H?key='+process.env.VUE_APP_API_KEY
       console.log(request)
       const { data } = await axios.get(request);
-      console.log(data)
       var input = data.values
-      const keys = ["title", "completion", "finished", "hours", "genre", "rating", "reccomend", "return"];
+      const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return"];
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
@@ -80,18 +80,48 @@ export default {
         acc[i] = test;
         return acc;
       }, []);
+      this.loading = false;
     },
-    onSortChange(event) {
-      const value = event.value.value;
-      const sortValue = event.value;
-      if (value.indexOf('!') === 0) {
-        this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
-        this.sortKey = sortValue;
-      } else {
-        this.sortOrder = 1;
-        this.sortField = value;
-        this.sortKey = sortValue;
+    formatDate(value) {
+       return value.toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    },
+    formatCurrency(value) {
+      return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    },
+    clearFilter() {
+      this.initFilters();
+    },
+    initFilters() {
+      this.filters = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        title: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        completion: { value: null, matchMode: FilterMatchMode.IN },
+      };
+    },
+    getCustomers(data) {
+      return [...(data || [])].map((d) => {
+        d.date = new Date(d.date);
+        return d;
+      });
+    },
+    getSeverity(status) {
+      switch (status) {
+        
+        case 'Abandoned':
+          return 'danger';
+        
+        case 'Finished':
+          return 'success';
+        
+        case 'Backlog':
+          return 'info';
+        
+        case 'In Progress':
+          return 'warning';
       }
     }
   },
