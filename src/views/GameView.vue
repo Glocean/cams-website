@@ -4,43 +4,75 @@
       <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
     </video>
     <div id="overlay"/>
-    <div class="content flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">
-      <p-datatable v-model:filters="filters" :value="games" paginator showGridlines :rows="10" dataKey="id"
-                filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title', 'completion', 'date', 'hours', 'rating']">
-        <template #header>
-          <div class="flex justify-content-between">
-            <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
-            <p-iconField iconPosition="left">
-              <p-inputIcon>
-                <i class="pi pi-search" />
-              </p-inputIcon>
-              <p-inputText v-model="filters['global'].value" placeholder="Keyword Search" />
-            </p-iconField>
-          </div>
-        </template>
-        <template #empty> No customers found. </template>
-        <template #loading> Loading customers data. Please wait. </template>
-        <p-column field="title" header="Title" sortable style="min-width: 12rem">
-          <template #body="{ data }">
-            {{ data.title }}
+    <div class="content flex flex-column align-items-center justify-content-center m-5">
+      <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
+        <p-datatable v-model:filters="filters" :value="games" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
+                  filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;">
+          <template #header>
+            <div class="flex justify-content-between">
+              <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+              <p-iconField iconPosition="left">
+                <p-inputIcon>
+                  <i class="pi pi-search" />
+                </p-inputIcon>
+                <p-inputText v-model="filters['global'].value" placeholder="Keyword Search" />
+              </p-iconField>
+            </div>
           </template>
-        </p-column>
-        <p-column header="Completion" filterField="completion" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" style="min-width: 14rem">
-          <template #body="{ data }">
-            <p-tag :value="data.completion" :severity="getSeverity(data.completion)" />
-          </template>
-          <template #filter="{ filterModel }">
-            <p-multiSelect v-model="filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter">
-              <template #option="slotProps">
-                <div class="flex align-items-center gap-2">
-                  <p-tag :value="slotProps.option" :severity="getSeverity(slotProps.option)" />
-                </div>
-              </template>
-            </p-multiSelect>
-          </template>
-        </p-column>
-      </p-datatable>
-      <div>{{ games }}</div>
+          <template #empty> No customers found. </template>
+          <template #loading> Loading customers data. Please wait. </template>
+          <p-column expander style="width: 5rem" />
+          <p-column field="title" header="Title" sortable style="min-width: 12rem">
+            <template #body="{ data }">
+              {{ data.title }}
+            </template>
+          </p-column>
+          <p-column field="completion" header="Completion" filterField="completion" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
+            <template #body="{ data }">
+              <p-tag :value="data.completion" :severity="getSeverity(data.completion)" />
+            </template>
+            <template #filter="{ filterModel }">
+              <p-multiSelect v-model="filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter">
+                <template #option="slotProps">
+                  <div class="flex align-items-center gap-2">
+                    <p-tag :value="slotProps.option" :severity="getSeverity(slotProps.option)" />
+                  </div>
+                </template>
+              </p-multiSelect>
+            </template>
+          </p-column>
+          <p-column field="hours" header="Time Played (hrs)" sortable style="min-width: 12rem">
+            <template #body="{ data }">
+              {{ data.hours }}
+            </template>
+          </p-column>
+          <p-column header="Date" filterField="date" dataType="date" style="min-width: 10rem">
+            <template #body="{ data }">
+              {{ data.date }}
+            </template>
+          </p-column>
+          <p-column field="genre" header="Genres" sortable style="min-width: 12rem">
+            <template #body="{ data }">
+              <p-tag v-for="item in formatTags(data.genre)" :value=item severity="secondary" v-bind:key="item" class="m-1"/>
+            </template>
+          </p-column>
+          <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
+            <template #body="{ data }">
+              <p-tag :value="data.rating" :severity="getRatingSeverity(data.rating)" />
+            </template>
+            <template #filter="{ filterModel }">
+              <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
+                <template #option="slotProps">
+                  <div class="flex align-items-center gap-2">
+                    <p-tag :value="slotProps.option" :severity="getRatingSeverity(slotProps.option)" />
+                  </div>
+                </template>
+              </p-multiSelect>
+            </template>
+          </p-column>
+        </p-datatable>
+      </div>
+      <!--<div>{{ games }}</div>-->
     </div>
   </div>
 </template>
@@ -57,7 +89,9 @@ export default {
       customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
-      loading: true
+      ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],
+      loading: true,
+      expandedRows: []
     };
   },
   created() {
@@ -82,12 +116,8 @@ export default {
       }, []);
       this.loading = false;
     },
-    formatDate(value) {
-       return value.toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
+    formatTags(value) {
+       return value.split(",");
     },
     formatCurrency(value) {
       return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -99,7 +129,8 @@ export default {
       this.filters = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         title: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        completion: { value: null, matchMode: FilterMatchMode.IN },
+        completion: { value: ['Finished', '100%', 'Abandoned'], matchMode: FilterMatchMode.IN },
+        rating: { value: null, matchMode: FilterMatchMode.IN },
       };
     },
     getCustomers(data) {
@@ -123,6 +154,25 @@ export default {
         case 'In Progress':
           return 'warning';
       }
+    },
+    getRatingSeverity(status) {
+      switch (status) {
+        
+        case 'Bad':
+          return 'danger';
+        
+        case 'Ok':
+          return 'warning';
+        
+        case 'Good':
+          return 'secondary';
+        
+        case 'Great':
+          return 'info';
+
+        case 'Love':
+          return 'success'; 
+      }
     }
   },
   beforeMount() {
@@ -132,9 +182,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
 
 #myVideo {
   position: fixed;
@@ -155,7 +202,7 @@ export default {
   z-index: -1;
 }
 
-.home {
+.games {
   display: grid;
   height: -webkit-fill-available;
   width: 100%;
@@ -169,17 +216,8 @@ export default {
   font-size: 6vh;
 }
 
-#title {
-  font-size: 8vh;
-}
-
-#card-text {
-  font-size: 2vh;
-}
-
-.p-divider.p-divider-horizontal:before {
-    border-top: 1px #ffffff;
-    border-top-style: solid;
+.p-paginator {
+  border-radius: 0 !important;
 }
 
 </style>
