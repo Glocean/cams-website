@@ -1,20 +1,18 @@
 <template>
   <div class="games">
-    <div class="flex flex-column align-items-center justify-content-center m-5">
-      <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
+    <div class="flex flex-row align-items-center justify-content-center flex-wrap">
+      <div class="flex-column flex-wrap pr-5">
         <GameTable :gameData="games" :loading="loading"/>
-        <CurrentlyPlaying :gameData="games"/>
       </div>
-      <!--<div>{{ games }}</div>-->
+      <div class="flex-column w-3">
+        <CurrentlyPlaying :gameData="currentlyPlaying" :images="currentlyPlayingBanners"/>
+      </div>
     </div>
+    <!--<div>{{ games }}</div>-->
   </div>
 </template>
 
 <script>
-// TODO: "Currently Playing" carousel that shows what I'm currently playing with pictures and stuff
-// https://primevue.org/carousel/
-// You can create the path to steam header pictures if you know the steam app id
-
 // TODO: Maybe remove backlog from main table and create a second table that's just the backlog
 
 import axios from "axios";
@@ -31,6 +29,8 @@ export default {
   data() {
     return {
       games: null,
+      currentlyPlaying: [],
+      currentlyPlayingBanners: [],
       customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
@@ -51,7 +51,7 @@ export default {
       const { data } = await axios.get(request);
       var input = data.values
       const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon"];
-      console.log(data.values)
+      //console.log(data.values)
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
@@ -61,6 +61,12 @@ export default {
         return acc;
       }, []);
       this.loading = false;
+      this.games.forEach((item) => {
+        if (item.completion == "In Progress") {
+          this.currentlyPlaying.push(item)
+          this.currentlyPlayingBanners.push(this.getBannerUrl(item))
+        }
+      });
     },
     formatTags(value) {
        return value.split(",");
@@ -144,6 +150,7 @@ export default {
   display: grid;
   height: -webkit-fill-available;
   width: 100%;
+  place-items: center;
 }
 
 </style>

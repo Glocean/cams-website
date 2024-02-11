@@ -47,6 +47,7 @@ import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import Galleria from 'primevue/galleria';
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -89,5 +90,6 @@ app.component('p-slider', Slider);
 app.component('p-iconField', IconField);
 app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
+app.component('p-galleria', Galleria);
 
 app.mount("#app");
