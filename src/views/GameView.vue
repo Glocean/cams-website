@@ -3,6 +3,7 @@
     <div class="flex flex-column align-items-center justify-content-center m-5">
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
         <GameTable :gameData="games" :loading="loading"/>
+        <CurrentlyPlaying :gameData="games"/>
       </div>
       <!--<div>{{ games }}</div>-->
     </div>
@@ -19,11 +20,13 @@
 import axios from "axios";
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
 import GameTable from "@/components/GameTable.vue";
+import CurrentlyPlaying from "@/components/CurrentlyPlaying.vue";
 
 export default {
   name: "GameView",
   components: {
     GameTable,
+    CurrentlyPlaying,
   },
   data() {
     return {

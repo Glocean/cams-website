@@ -33,6 +33,7 @@ import ProgressBar from 'primevue/progressbar';
 import Slider from 'primevue/slider';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import Carousel from 'primevue/carousel';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -87,5 +88,6 @@ app.component('p-progressbar', ProgressBar);
 app.component('p-slider', Slider);
 app.component('p-iconField', IconField);
 app.component('p-inputIcon', InputIcon);
+app.component('p-carousel', Carousel);
 
 app.mount("#app");
