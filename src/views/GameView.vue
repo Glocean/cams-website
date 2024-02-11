@@ -6,6 +6,9 @@
                   filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;height: 50rem">
           <template #header>
             <div class="flex justify-content-between">
+              <!--
+                TODO: Move this Clear button to the right and add a refresh table button here that re-queries google sheets
+              -->
               <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
               <p-iconField iconPosition="left">
                 <p-inputIcon>
@@ -22,9 +25,16 @@
           </template>
           <template #loading> Loading customers data. Please wait. </template>
           <p-column expander style="width: 5rem" />
-          <p-column field="title" header="Title" sortable style="min-width: 12rem">
+          <p-column field="title" header="Title" sortable style="min-width: 18rem">
             <template #body="{ data }">
-              {{ data.title }}
+              <div class="flex flex-row align-items-center">
+                <div v-if="data.icon" class="mr-3">
+                  <p-image :src="getIconUrl(data)"></p-image>
+                </div>
+                <div>
+                  {{ data.title }}
+                </div>
+              </div>
             </template>
           </p-column>
           <p-column field="completion" header="Completion" filterField="completion" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
@@ -76,7 +86,9 @@
           </p-column>
           <template #expansion="slotProps">
             <div class="p-3">
-              <h5>Details for {{ slotProps.data.title }}</h5>
+              <div v-if="slotProps.data.steamId">
+                <p-image :src="getBannerUrl(slotProps.data)"></p-image>
+              </div>
             </div>
           </template>
         </p-datatable>
@@ -87,6 +99,12 @@
 </template>
 
 <script>
+// TODO: "Currently Playing" carousel that shows what I'm currently playing with pictures and stuff
+// https://primevue.org/carousel/
+// You can create the path to steam header pictures if you know the steam app id
+
+// TODO: Maybe remove backlog from main table and create a second table that's just the backlog
+
 import axios from "axios";
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
 
@@ -110,11 +128,12 @@ export default {
   },
   methods: {
     async getGames() {
-      const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:H?key='+process.env.VUE_APP_API_KEY
+      const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:J?key='+process.env.VUE_APP_API_KEY
       console.log(request)
       const { data } = await axios.get(request);
       var input = data.values
-      const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return"];
+      const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon"];
+      console.log(data.values)
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
@@ -182,6 +201,17 @@ export default {
         case 'Love':
           return 'success'; 
       }
+    },
+    getIconUrl(data) {
+      var id = data.steamId;
+      var hash = data.icon;
+      var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+      return icon;
+    },
+    getBannerUrl(data) {
+      var id = data.steamId;
+      var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+      return banner;
     }
   },
   beforeMount() {
