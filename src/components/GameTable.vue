@@ -63,7 +63,7 @@
                 </div>
             </template>
         </p-column>
-        <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 10rem">
+        <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
                 <div v-if=data.rating>
                     <p-tag :value="data.rating" :severity="getRatingSeverity(data.rating)" />

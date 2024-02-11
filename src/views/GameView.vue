@@ -1,11 +1,11 @@
 <template>
   <div class="games">
-    <div class="flex flex-row align-items-center justify-content-center flex-wrap">
-      <div class="flex-column flex-wrap pr-5">
+    <div class="flex align-items-center justify-content-around flex-wrap">
+      <div class="flex m-8">
         <GameTable :gameData="games" :loading="loading"/>
       </div>
-      <div class="flex-column w-3">
-        <CurrentlyPlaying :gameData="currentlyPlaying" :images="currentlyPlayingBanners"/>
+      <div class="flex flex-column m-8 h-full">
+        <CurrentlyPlaying :gameData="currentlyPlaying"/>
       </div>
     </div>
     <!--<div>{{ games }}</div>-->
@@ -30,7 +30,6 @@ export default {
     return {
       games: null,
       currentlyPlaying: [],
-      currentlyPlayingBanners: [],
       customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
@@ -64,7 +63,6 @@ export default {
       this.games.forEach((item) => {
         if (item.completion == "In Progress") {
           this.currentlyPlaying.push(item)
-          this.currentlyPlayingBanners.push(this.getBannerUrl(item))
         }
       });
     },

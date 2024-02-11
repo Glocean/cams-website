@@ -1,24 +1,22 @@
 <template>
-  <p-card style="background:rgba(0, 0, 0, 0.5);">
-    <template #content>
-      <p-carousel :value="gameData" :numVisible="1" :numScroll="1" circular :autoplayInterval="3000" :showNavigators="false" :showIndicators="false" containerClass="w-full">
-        <template #item="slotProps">
-          <div v-if="slotProps.data.steamId">
-            <p-image :src="getBannerUrl(slotProps.data)" style="width: 100%;"></p-image>
-          </div>
-        </template>
-        <template #footer>
-          <div>
-            Currently Playing
-          </div>
-        </template>
-      </p-carousel>
+  <p-carousel :value="gameData" :numVisible="1" :numScroll="1" circular :autoplayInterval="3000" :showNavigators="false" :showIndicators="false" containerClass="w-full" style="width: 460px">
+    <template #item="slotProps">
+      <div v-if="slotProps.data.steamId">
+        <p-image :src="getBannerUrl(slotProps.data)" style="width: 100%;"></p-image>
+      </div>
     </template>
-  </p-card>
+    <template #footer>
+      <p-card style="background:rgba(0, 0, 0, 0.60);position: relative; top: -52px;border-radius: 0px;height: 3rem">
+      </p-card>
+      <p style="position: relative; top: -116px;font-size:x-large;">
+        Currently Playing
+      </p>
+    </template>
+  </p-carousel>
 </template>
   
 <script>
-
+//circular :autoplayInterval="3000"
 export default {
   name: "GameView",
   props: ['gameData'],
@@ -43,8 +41,4 @@ export default {
 </script>
   
 <style scoped>
-
-.p-carousel-items-container{
-  max-width: 50%;
-}
 </style>
