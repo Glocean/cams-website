@@ -2,7 +2,9 @@
   <p-carousel :value="gameData" :numVisible="1" :numScroll="1" circular :autoplayInterval="3000" :showNavigators="false" :showIndicators="false" containerClass="w-full" style="width: 460px">
     <template #item="slotProps">
       <div v-if="slotProps.data.steamId">
-        <p-image :src="getBannerUrl(slotProps.data)" style="width: 100%;"></p-image>
+        <a :href="getSteamPageUrl(slotProps.data)" target="_blank">
+          <p-image :src="getBannerUrl(slotProps.data)" style="width: 100%;"></p-image>
+        </a>
       </div>
     </template>
     <template #footer>
@@ -35,7 +37,13 @@ export default {
       var id = data.steamId;
       var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
       return banner;
-    }
+    },
+    getSteamPageUrl(data) {
+      var id = data.steamId;
+      var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+      var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+      return steamPage;
+    },
   },
 };
 
