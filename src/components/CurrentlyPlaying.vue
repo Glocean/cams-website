@@ -16,7 +16,7 @@
 </template>
   
 <script>
-//circular :autoplayInterval="3000"
+
 export default {
   name: "GameView",
   props: ['gameData'],

@@ -1,5 +1,5 @@
 <template>
-    <p-datatable v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
+    <p-datatable class="shadow-8" v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
             filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;height: 50rem">
         <template #header>
             <div class="flex justify-content-between">
@@ -46,11 +46,12 @@
                 </p-multiSelect>
             </template>
         </p-column>
-        <p-column field="hours" header="Time Played (hrs)" sortable style="min-width: 12rem">
+        <p-column field="hours" header="Time Played" sortable style="min-width: 12rem">
             <template #body="{ data }">
-                {{ data.hours }}
+                {{ data.hours }} hours
             </template>
         </p-column>
+        <!--
         <p-column header="Date" filterField="date" dataType="date" style="min-width: 10rem">
             <template #body="{ data }">
                 {{ data.date }}
@@ -63,6 +64,7 @@
                 </div>
             </template>
         </p-column>
+        -->
         <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
                 <div v-if=data.rating>
@@ -132,12 +134,6 @@
           completion: { value: ['Finished', '100%', 'Abandoned'], matchMode: FilterMatchMode.IN },
           rating: { value: null, matchMode: FilterMatchMode.IN },
         };
-      },
-      getCustomers(data) {
-        return [...(data || [])].map((d) => {
-          d.date = new Date(d.date);
-          return d;
-        });
       },
       getSeverity(status) {
         switch (status) {

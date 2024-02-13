@@ -6,6 +6,7 @@
       </div>
       <div class="flex flex-column m-8 h-full">
         <CurrentlyPlaying :gameData="currentlyPlaying"/>
+        <BacklogTable :gameData="backlog"/>
       </div>
     </div>
     <!--<div>{{ games }}</div>-->
@@ -19,17 +20,20 @@ import axios from "axios";
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
 import GameTable from "@/components/GameTable.vue";
 import CurrentlyPlaying from "@/components/CurrentlyPlaying.vue";
+import BacklogTable from "@/components/BacklogTable.vue";
 
 export default {
   name: "GameView",
   components: {
     GameTable,
     CurrentlyPlaying,
+    BacklogTable,
   },
   data() {
     return {
       games: null,
       currentlyPlaying: [],
+      backlog: [],
       customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
@@ -63,6 +67,8 @@ export default {
       this.games.forEach((item) => {
         if (item.completion == "In Progress") {
           this.currentlyPlaying.push(item)
+        }else if (item.completion == "Backlog") {
+          this.backlog.push(item)
         }
       });
     },
