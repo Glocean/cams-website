@@ -99,10 +99,10 @@
                       </template>
                     </p-button>
                   </div>
-                  <div v-if="slotProps.data.date" class="font-medium text-secondary text-sm mt-3">
+                  <div v-if="slotProps.data.date" class="font-medium text-secondary text-sm mt-2">
                     <span><i>Finished {{ slotProps.data.date }}</i></span>
                   </div>
-                  <div v-if="!slotProps.data.date" class="font-medium text-secondary text-sm mt-3">
+                  <div v-if="!slotProps.data.date" class="font-medium text-secondary text-sm mt-2">
                     <span><i>DNF</i></span>
                   </div>
                   <div class="mt-3">
