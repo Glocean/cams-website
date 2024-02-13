@@ -2,7 +2,7 @@
   <div class="games">
     <div class="flex align-items-center justify-content-around flex-wrap">
       <div class="flex m-8">
-        <GameTable :gameData="games" :loading="loading"/>
+        <GameTable :gameData="games" :loading="loading" @refresh-data="getGames"/>
       </div>
       <div class="flex flex-column m-8 h-full">
         <CurrentlyPlaying :gameData="currentlyPlaying"/>
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-// TODO: Maybe remove backlog from main table and create a second table that's just the backlog
-
 import axios from "axios";
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
 import GameTable from "@/components/GameTable.vue";
@@ -49,6 +47,10 @@ export default {
   },
   methods: {
     async getGames() {
+      this.loading = true;
+      this.games = null;
+      this.currentlyPlaying = [];
+      this.backlog = [];
       const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:J?key='+process.env.VUE_APP_API_KEY
       console.log(request)
       const { data } = await axios.get(request);
@@ -71,6 +73,7 @@ export default {
           this.backlog.push(item)
         }
       });
+      console.log('done :)')
     },
     formatTags(value) {
        return value.split(",");

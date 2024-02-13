@@ -3,16 +3,18 @@
             filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;height: 50rem">
         <template #header>
             <div class="flex justify-content-between">
-            <!--
-                TODO: Move this Clear button to the right and add a refresh table button here that re-queries google sheets
-            -->
-                <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
-                <p-iconField iconPosition="left">
-                    <p-inputIcon>
-                        <i class="pi pi-search" />
-                    </p-inputIcon>
-                    <p-inputText v-model="filters['global'].value" placeholder="Keyword Search" />
-                </p-iconField>
+                <div class="flex flex-row">
+                  <p-button class="mr-2" type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                  <p-button type="button" icon="pi pi-refresh" label="Refresh" outlined @click="refresh()" />
+                </div>
+                <div class="flex flex-row">
+                  <p-iconField iconPosition="left">
+                      <p-inputIcon>
+                          <i class="pi pi-search" />
+                      </p-inputIcon>
+                      <p-inputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                  </p-iconField>
+                </div>
             </div>
         </template>
         <template #empty>
@@ -92,12 +94,6 @@
 </template>
   
 <script>
-  // TODO: "Currently Playing" carousel that shows what I'm currently playing with pictures and stuff
-  // https://primevue.org/carousel/
-  // You can create the path to steam header pictures if you know the steam app id
-  
-  // TODO: Maybe remove backlog from main table and create a second table that's just the backlog
-  
   import { FilterMatchMode, FilterOperator } from 'primevue/api'
   
   export default {
@@ -180,7 +176,10 @@
         var id = data.steamId;
         var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
         return banner;
-      }
+      },
+      refresh() {
+        this.$emit('refresh-data');
+      },
     },
   };
 </script>
