@@ -5,13 +5,13 @@
         </template>
         <template #item="{ item, props, hasSubmenu }">
             <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                    <span :class="item.icon" />
+                <a :href="href" v-bind="props.action" @click="navigate">
+                    <font-awesome-icon :icon="item.icon" />
                     <span class="ml-2 nav-label">{{ item.label }}</span>
                 </a>
             </router-link>
-            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-                <span :class="item.icon" />
+            <a v-else :href="item.url" :target="item.target" v-bind="props.action">
+                <font-awesome-icon :icon="item.icon" />
                 <span class="ml-2 nav-label">{{ item.label }}</span>
                 <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
             </a>
@@ -29,32 +29,24 @@ export default {
         items: [
             {
                 label: 'HOME',
-                icon: 'pi pi-home',
+                icon: 'fa-solid fa-house',
                 route: '/'
             },
             {
-                label: 'ABOUT',
-                icon: 'pi pi-star',
-                route: '/about'
+                label: 'GAMES',
+                icon: 'fa-solid fa-gamepad',
+                route: '/games'
             },
             {
                 label: 'TASKMASTER',
-                icon: 'pi pi-envelope',
+                icon: 'fa-solid fa-envelope',
                 items: [
                     {
-                        label: '2022',
-                        route: '/taskmaster/2022'
+                        label: 'COMING SOON',
+                        icon: 'fa-solid fa-envelope',
                     },
-                    {
-                        label: '2023',
-                        route: '/taskmaster/2023'
-                    }
                 ]
             },
-            {
-                label: 'CONTACT',
-                icon: 'pi pi-phone'
-            }
         ]
     }
   }

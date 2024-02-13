@@ -1,5 +1,9 @@
 <template>
   <Navbar/>
+  <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
+    <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
+  </video>
+  <div id="overlay"/>
   <router-view/>
 </template>
 
@@ -29,6 +33,29 @@ html, body{
   height: 100%;
   margin: 0px;
   padding: 0px;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+#overlay {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+.p-paginator {
+  border-radius: 0 !important;
 }
 
 </style>
