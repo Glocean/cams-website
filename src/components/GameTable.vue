@@ -88,8 +88,8 @@
                 <div v-if="slotProps.data.steamId">
                     <p-image :src="getBannerUrl(slotProps.data)"></p-image>
                 </div>
-                <div class="flex flex-column p-5 w-full">
-                  <div class="flex flex-row justify-content-between align-items-center text-xl font-medium text-900 mt-2 w-full">
+                <div class="flex flex-column align-content-center pl-5 pr-5 w-full h-full">
+                  <div class="flex flex-row justify-content-between align-items-center text-xl font-medium text-900 w-full">
                     <span>{{ slotProps.data.title }}</span>
                     <p-button v-if="slotProps.data.steamId" severity="info" text link aria-label="Steam" v-tooltip.bottom="{ value: 'Steam Page' }">
                       <template #icon>
