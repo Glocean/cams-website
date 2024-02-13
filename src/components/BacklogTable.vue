@@ -12,7 +12,13 @@
                                 <a :href="getSteamPageUrl(item)" target="_blank">
                                     <p-image class="" :src="getBannerUrl(item)" width="250"></p-image>
                                 </a>
-                                <Tag value="test" severity="success" class="absolute" style="left: 4px; top: 4px"></Tag>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="!item.steamId" class="p-4 border-1 surface-border surface-card border-round flex flex-column" style="width:300px;height: 100%">
+                        <div class="flex justify-content-center align-content-center border-round w-full h-full">
+                            <div class="flex align-items-center justify-content-center w-full h-full">
+                                <span>{{item.title}}</span>
                             </div>
                         </div>
                     </div>
