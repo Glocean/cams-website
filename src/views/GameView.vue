@@ -52,7 +52,6 @@ export default {
       this.currentlyPlaying = [];
       this.backlog = [];
       const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+process.env.VUE_APP_API_KEY
-      console.log(request)
       const { data } = await axios.get(request);
       var input = data.values
       const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
@@ -73,7 +72,6 @@ export default {
           this.backlog.push(item)
         }
       });
-      console.log('done :)')
     },
     formatTags(value) {
        return value.split(",");

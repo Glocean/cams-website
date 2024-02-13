@@ -1,6 +1,6 @@
 <template>
     <p-datatable class="shadow-8" v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
-            filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" @rowExpand="onRowExpand" tableStyle="width: 50rem;height: 50rem">
+            filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" tableStyle="width: 50rem;height: 50rem">
         <template #header>
             <div class="flex justify-content-between">
                 <div class="flex flex-row">
