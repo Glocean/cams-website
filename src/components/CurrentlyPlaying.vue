@@ -6,11 +6,12 @@
       </div>
     </template>
     <template #footer>
-      <p-card style="background:rgba(0, 0, 0, 0.60);position: relative; top: -52px;border-radius: 0px;height: 3rem">
-      </p-card>
-      <p style="position: relative; top: -116px;font-size:x-large;">
-        Currently Playing
-      </p>
+      <div style="height: 50px;">
+        <p-card style="background:rgba(0, 0, 0, 0.60);position: relative; top: -52px;border-radius: 0px;height: 3rem"></p-card>
+        <p style="position: relative; top: -116px;font-size:x-large;">
+          Currently Playing
+        </p>
+      </div>
     </template>
   </p-carousel>
 </template>
@@ -41,4 +42,9 @@ export default {
 </script>
   
 <style scoped>
+
+.p-carousel-footer {
+  height: 50px !important;
+}
+
 </style>
