@@ -34,6 +34,7 @@ import Slider from 'primevue/slider';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Carousel from 'primevue/carousel';
+import Galleria from 'primevue/galleria';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -47,7 +48,7 @@ import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import Galleria from 'primevue/galleria';
+import { faSteam } from "@fortawesome/free-brands-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -59,6 +60,7 @@ library.add(faLinkedin);
 library.add(faGamepad);
 library.add(faHouse);
 library.add(faEnvelope);
+library.add(faSteam);
 
 const app = createApp(App);
 app.use(PrimeVue);

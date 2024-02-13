@@ -4,8 +4,8 @@
         <template #header>
             <div class="flex justify-content-between">
                 <div class="flex flex-row">
-                  <p-button class="mr-2" type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
-                  <p-button type="button" icon="pi pi-refresh" label="Refresh" outlined @click="refresh()" />
+                  <p-button class="mr-2" type="button" icon="pi pi-refresh" label="Refresh" outlined @click="refresh()" />
+                  <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
                 </div>
                 <div class="flex flex-row">
                   <p-iconField iconPosition="left">
@@ -84,9 +84,33 @@
             </template>
         </p-column>
         <template #expansion="slotProps">
-            <div class="p-3">
+            <div class="flex flex-row p-3">
                 <div v-if="slotProps.data.steamId">
                     <p-image :src="getBannerUrl(slotProps.data)"></p-image>
+                </div>
+                <div class="flex flex-column p-5 w-full">
+                  <div class="flex flex-row justify-content-between align-items-center text-xl font-medium text-900 mt-2 w-full">
+                    <span>{{ slotProps.data.title }}</span>
+                    <p-button v-if="slotProps.data.steamId" severity="info" text link aria-label="Steam" v-tooltip.bottom="{ value: 'Steam Page' }">
+                      <template #icon>
+                        <a :href="getSteamPageUrl(slotProps.data)" target="_blank">
+                          <font-awesome-icon class="text-2xl" icon="fa-brands fa-steam" color="grey" />
+                        </a>
+                      </template>
+                    </p-button>
+                  </div>
+                  <div v-if="slotProps.data.date" class="font-medium text-secondary text-sm mt-3">
+                    <span><i>Finished {{ slotProps.data.date }}</i></span>
+                  </div>
+                  <div v-if="!slotProps.data.date" class="font-medium text-secondary text-sm mt-3">
+                    <span><i>DNF</i></span>
+                  </div>
+                  <div class="mt-3">
+                    <p-tag v-for="item in formatTags(slotProps.data.genre)" :value=item severity="secondary" v-bind:key="item" class="mr-2"/>
+                  </div>
+                  <div v-if="slotProps.data.notes" class="font-medium text-secondary text-sm mt-3">
+                    <span>{{ slotProps.data.notes }}</span>
+                  </div>
                 </div>
             </div>
         </template>
@@ -179,6 +203,12 @@
       },
       refresh() {
         this.$emit('refresh-data');
+      },
+      getSteamPageUrl(data) {
+        var id = data.steamId;
+        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+        var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+        return steamPage;
       },
     },
   };
