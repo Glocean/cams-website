@@ -35,6 +35,7 @@ import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Carousel from 'primevue/carousel';
 import Galleria from 'primevue/galleria';
+import Chart from 'primevue/chart';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -49,6 +50,8 @@ import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faSteam } from "@fortawesome/free-brands-svg-icons";
+import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
+import { faTable } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -61,6 +64,8 @@ library.add(faGamepad);
 library.add(faHouse);
 library.add(faEnvelope);
 library.add(faSteam);
+library.add(faChartSimple);
+library.add(faTable);
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -93,5 +98,6 @@ app.component('p-iconField', IconField);
 app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
+app.component('p-chart', Chart);
 
 app.mount("#app");

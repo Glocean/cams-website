@@ -80,9 +80,6 @@ export default {
     formatTags(value) {
        return value.split(",");
     },
-    formatCurrency(value) {
-      return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    },
     clearFilter() {
       this.initFilters();
     },
@@ -93,12 +90,6 @@ export default {
         completion: { value: ['Finished', '100%', 'Abandoned'], matchMode: FilterMatchMode.IN },
         rating: { value: null, matchMode: FilterMatchMode.IN },
       };
-    },
-    getCustomers(data) {
-      return [...(data || [])].map((d) => {
-        d.date = new Date(d.date);
-        return d;
-      });
     },
     getSeverity(status) {
       switch (status) {
@@ -114,6 +105,7 @@ export default {
         
         case 'In Progress':
           return 'warning';
+        
       }
     },
     getRatingSeverity(status) {

@@ -35,7 +35,18 @@ export default {
             {
                 label: 'GAMES',
                 icon: 'fa-solid fa-gamepad',
-                route: '/games'
+                items: [
+                    {
+                        label: 'Dashboard',
+                        icon: 'fa-solid fa-table',
+                        route: '/games'
+                    },
+                    {
+                        label: 'Stats',
+                        icon: 'fa-solid fa-chart-simple',
+                        route: '/games/stats'
+                    }
+                ]
             },
             {
                 label: 'TASKMASTER',
@@ -47,6 +58,10 @@ export default {
                     },
                 ]
             },
+            {
+                label: 'CONTACT',
+                icon: 'fa-solid fa-phone'
+            }
         ]
     }
   }
