@@ -4,9 +4,13 @@
       <div class="flex m-8">
         <GameTable :gameData="games" :loading="loading" @refresh-data="getGames"/>
       </div>
-      <div class="flex flex-column m-8 h-full">
-        <CurrentlyPlaying :gameData="currentlyPlaying"/>
-        <BacklogTable :gameData="backlog"/>
+      <div class="flex justify-content-center flex-column m-8 h-full flex-wrap">
+        <div class="flex align-items-center justify-content-center">
+          <CurrentlyPlaying :gameData="currentlyPlaying"/>
+        </div>
+        <div class="flex align-items-center justify-content-center">
+          <BacklogTable :gameData="backlog"/>
+        </div>
       </div>
     </div>
     <!--<div>{{ games }}</div>-->
