@@ -36,7 +36,6 @@ export default {
       games: null,
       currentlyPlaying: [],
       backlog: [],
-      customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
       ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],

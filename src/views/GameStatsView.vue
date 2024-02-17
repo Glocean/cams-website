@@ -1,16 +1,88 @@
 <template>
     <div class="games">
-        <div class="flex align-items-center justify-content-around flex-wrap">
-            <div class="flex justify-content-center m-8">
-                <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
-                <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
-            </div>
-            <div class="flex justify-content-center flex-column m-8 h-full flex-wrap">
-                <div class="flex align-items-center justify-content-center">
-
+        <div class="flex flex-row w-full h-full">
+            <div class="flex flex-column justify-content-center align-items-center w-full h-full">
+                <div class="flex flex-row">
+                    <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
                 </div>
-                <div class="flex align-items-center justify-content-center">
-
+                <div class="flex flex-row mt-8">
+                    <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
+                </div>
+            </div>
+            <div class="flex flex-column justify-content-center align-items-center w-full h-full">
+                <div class="flex flex-row">
+                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0);">
+                        <template #content>
+                            <div class="flex flex-row justify-content-center align-items-center">
+                                <div class="flex flex-column justify-content-center align-items-center mr-3">
+                                    <font-awesome-icon class="text-8xl" icon="fa-solid fa-clock" color="white" />
+                                </div>
+                                <div class="flex flex-column justify-content-center">
+                                    <div class="flex flex-row">
+                                        <span class="flex text-4xl">
+                                            {{ totalPlaytime }} Hours
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-row mt-1">
+                                        <span>
+                                            Total Playtime
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </p-card>
+                </div>
+                <div class="flex flex-row mt-5">
+                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.5);">
+                        <template #header>
+                            <p-image :src="getBannerUrl(topPlayedGame)"></p-image>
+                        </template>
+                        <template #content>
+                            <div class="flex flex-row justify-content-start align-items-center">
+                                <div class="flex flex-row justify-content-center align-items-center">
+                                    <div class="flex flex-column justify-content-center align-items-center mr-3">
+                                        <span class="flex text-4xl">
+                                            #1. 
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-column justify-content-center">
+                                        <div class="flex flex-row">
+                                            <span class="flex text-2xl">
+                                                {{ topPlayedGame.title }}
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-row mt-1">
+                                            <span class="flex text-lg">
+                                                {{ topPlayedGame.hours }} hours
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-for="item, index in topTenPlaytime" v-bind:key="item.title" class="flex flex-row justify-content-start align-items-center mt-3" >
+                                <div class="flex flex-row justify-content-center align-items-center">
+                                    <div class="flex flex-column justify-content-center align-items-center mr-3">
+                                        <span class="flex text-4xl">
+                                            #{{ index+2 }}. 
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-column justify-content-center">
+                                        <div class="flex flex-row">
+                                            <span class="flex text-2xl">
+                                                {{ item.title }}
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-row mt-1">
+                                            <span class="flex text-lg">
+                                                {{ item.hours }} hours
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </p-card>
                 </div>
             </div>
         </div>
@@ -18,7 +90,11 @@
 </template>
   
 <script>
-//TODO: Probably a good idea to move each of these charts out to their own components
+//TODO:
+// Total playtime widget
+// Most playtime widget (maybe carousel of top 5 or 10?)
+// Most popular genre widget (maybe genre breakdown? Bar chart?)
+// 
 import axios from "axios";
 export default {
     name: "GameStatsView",
@@ -35,6 +111,11 @@ export default {
             backlog: [],
             customers: null,
             loading: true,
+            totalPlaytime: 0,
+            playtimes: [],
+            games: null,
+            topTenPlaytime: [],
+            topPlayedGame: [],
         };
     },
     created() {
@@ -42,6 +123,49 @@ export default {
     mounted() {
     },
     methods: {
+        async getGames() {
+            this.loading = true;
+            this.games = null;
+            this.totalPlaytime = 0;
+            this.playtimes = [];
+            this.topTenPlaytime = [];
+            const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+process.env.VUE_APP_API_KEY
+            const { data } = await axios.get(request);
+            var input = data.values
+            const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
+            this.games = input.reduce(function(acc, cur, i) {
+                var test = cur.reduce(function(acc, cur, i) {
+                acc[keys[i]] = cur;
+                return acc;
+                }, {});
+                acc[i] = test;
+                return acc;
+            }, []);
+            this.loading = false;
+            this.games.forEach((item, index) => {
+                this.playtimes[index] = Number(item.hours);
+                if(item.hours){
+                    this.totalPlaytime = this.totalPlaytime + Number(item.hours);
+                    if(this.topTenPlaytime.length < 10){
+                        this.topTenPlaytime.push(item)
+                    }else{
+                        this.comparePlaytime(item);
+                    }
+                }
+            });
+            this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
+            this.topPlayedGame = this.topTenPlaytime[9];
+            this.topTenPlaytime.splice(9, 1);
+        },
+        comparePlaytime(game){
+            this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
+            for (let i = 0; i < this.topTenPlaytime.length; i++) {
+                if(Number(game.hours) > Number(this.topTenPlaytime[i].hours)){
+                    this.topTenPlaytime[i] = game;
+                    break;
+                }
+            }
+        },
         async getCompletionData() {
             this.loading = true;
             this.completion = {};
@@ -57,7 +181,6 @@ export default {
                 this.completionCounts[i] = val;
                 this.completionCounts[label] = val;
             }
-            console.log(this.completionCounts)
             this.loading = false;
         },
         async getRatingData() {
@@ -75,7 +198,6 @@ export default {
                 this.ratingCounts[i] = val;
                 this.ratingCounts[label] = val;
             }
-            console.log(this.rating)
             this.loading = false;
         },
         setCompletionChartData() {
@@ -102,16 +224,29 @@ export default {
 
             return {
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Game Ratings',
+                        color: 'white',
+                        font: {
+                            family: "Helvetica",
+                            size: 30,
+                            weight: "normal",
+                        },
+                    },
                     legend: {
                         labels: {
                             usePointStyle: true,
-                            color: textColor
-                        }
+                            color: textColor,
+                            padding: 20,
+                        },
+                        display: true,
+                        position: "bottom",
                     }
                 },
                 layout: {
                     padding: {
-                        bottom: 5
+                        bottom: 10
                     }
                 },
             };
@@ -140,24 +275,49 @@ export default {
 
             return {
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Game Ratings',
+                        color: 'white',
+                        font: {
+                            family: "Helvetica",
+                            size: 30,
+                            weight: "normal",
+                        },
+                    },
                     legend: {
                         labels: {
                             usePointStyle: true,
-                            color: textColor
-                        }
-                    }
+                            color: textColor,
+                            padding: 20,
+                        },
+                        display: true,
+                        position: "bottom",
+                    },
                 },
                 layout: {
                     padding: {
-                        bottom: 5
+                        bottom: 10
                     }
                 },
             };
-        }
+        },
+        getIconUrl(data) {
+            var id = data.steamId;
+            var hash = data.icon;
+            var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+            return icon;
+        },
+        getBannerUrl(data) {
+            var id = data.steamId;
+            var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+            return banner;
+        },
     },
     beforeMount() {
         this.getCompletionData();
         this.getRatingData();
+        this.getGames();
     },
 };
 </script>

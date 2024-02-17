@@ -52,6 +52,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faSteam } from "@fortawesome/free-brands-svg-icons";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import { faTable } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -66,6 +67,7 @@ library.add(faEnvelope);
 library.add(faSteam);
 library.add(faChartSimple);
 library.add(faTable);
+library.add(faClock);
 
 const app = createApp(App);
 app.use(PrimeVue);
