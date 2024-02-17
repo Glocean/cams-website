@@ -1,16 +1,12 @@
 <template>
     <div class="games">
-        <div class="flex flex-row w-full h-full">
-            <div class="flex flex-column justify-content-center align-items-center w-full h-full">
-                <div class="flex flex-row">
-                    <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
+        <div class="flex flex-column">
+            <div class="flex flex-row">
+                <div class="flex flex-column justify-content-center align-items-center pr-8">
+                        <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
+                        <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
                 </div>
-                <div class="flex flex-row mt-8">
-                    <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
-                </div>
-            </div>
-            <div class="flex flex-column justify-content-center align-items-center w-full h-full">
-                <div class="flex flex-row">
+                <div class="flex flex-column justify-content-center align-items-center w-full h-full">
                     <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0);">
                         <template #content>
                             <div class="flex flex-row justify-content-center align-items-center">
@@ -32,9 +28,7 @@
                             </div>
                         </template>
                     </p-card>
-                </div>
-                <div class="flex flex-row mt-5">
-                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.5);">
+                    <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.5);">
                         <template #header>
                             <p-image :src="getBannerUrl(topPlayedGame)"></p-image>
                         </template>
@@ -91,8 +85,6 @@
   
 <script>
 //TODO:
-// Total playtime widget
-// Most playtime widget (maybe carousel of top 5 or 10?)
 // Most popular genre widget (maybe genre breakdown? Bar chart?)
 // 
 import axios from "axios";
@@ -146,7 +138,7 @@ export default {
                 this.playtimes[index] = Number(item.hours);
                 if(item.hours){
                     this.totalPlaytime = this.totalPlaytime + Number(item.hours);
-                    if(this.topTenPlaytime.length < 10){
+                    if(this.topTenPlaytime.length < 5){
                         this.topTenPlaytime.push(item)
                     }else{
                         this.comparePlaytime(item);
@@ -154,8 +146,8 @@ export default {
                 }
             });
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
-            this.topPlayedGame = this.topTenPlaytime[9];
-            this.topTenPlaytime.splice(9, 1);
+            this.topPlayedGame = this.topTenPlaytime[4];
+            this.topTenPlaytime.splice(4, 1);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
@@ -226,7 +218,7 @@ export default {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Game Ratings',
+                        text: 'Completion',
                         color: 'white',
                         font: {
                             family: "Helvetica",
@@ -241,12 +233,13 @@ export default {
                             padding: 20,
                         },
                         display: true,
-                        position: "bottom",
+                        position: "right",
                     }
                 },
                 layout: {
                     padding: {
-                        bottom: 10
+                        bottom: 10,
+                        left: 10,
                     }
                 },
             };
@@ -292,12 +285,13 @@ export default {
                             padding: 20,
                         },
                         display: true,
-                        position: "bottom",
+                        position: "right",
                     },
                 },
                 layout: {
                     padding: {
-                        bottom: 10
+                        bottom: 10,
+                        left: 10,
                     }
                 },
             };
