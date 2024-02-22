@@ -104,10 +104,10 @@ export default {
             customers: null,
             loading: true,
             totalPlaytime: 0,
-            playtimes: [],
             games: null,
             topTenPlaytime: [],
             topPlayedGame: [],
+            grenres: {},
         };
     },
     created() {
@@ -116,10 +116,10 @@ export default {
     },
     methods: {
         async getGames() {
+            this.genres = {};
             this.loading = true;
             this.games = null;
             this.totalPlaytime = 0;
-            this.playtimes = [];
             this.topTenPlaytime = [];
             const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+process.env.VUE_APP_API_KEY
             const { data } = await axios.get(request);
@@ -134,8 +134,10 @@ export default {
                 return acc;
             }, []);
             this.loading = false;
-            this.games.forEach((item, index) => {
-                this.playtimes[index] = Number(item.hours);
+            var genreArr = [];
+            this.games.forEach((item) => {
+
+                // Playtime
                 if(item.hours){
                     this.totalPlaytime = this.totalPlaytime + Number(item.hours);
                     if(this.topTenPlaytime.length < 5){
@@ -144,10 +146,24 @@ export default {
                         this.comparePlaytime(item);
                     }
                 }
+
+                // Tags
+                if(item.genre){
+                    genreArr = this.formatTags(item.genre);
+                    genreArr.forEach((tag) => {
+                        if(tag in this.genres){
+                            this.genres[tag] += 1;
+                        }else{
+                            this.genres[tag] = 1;
+                        }
+                    })
+                }
             });
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
             this.topTenPlaytime.splice(4, 1);
+            this.topTenPlaytime.sort((a,b) => Number(b.hours) - Number(a.hours));
+            console.log(this.genres);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
@@ -306,6 +322,9 @@ export default {
             var id = data.steamId;
             var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
             return banner;
+        },
+        formatTags(value) {
+            return value.split(", ");
         },
     },
     beforeMount() {
