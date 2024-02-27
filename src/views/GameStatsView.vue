@@ -1,7 +1,7 @@
 <template>
     <div class="games">
-        <div class="flex flex-column">
-            <div class="flex flex-row">
+        <div class="flex flex-column w-full justify-content-center align-items-center">
+            <div class="flex flex-row justify-content-center align-items-center mt-8">
                 <div class="flex flex-column justify-content-center align-items-center pr-8">
                         <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
                         <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
@@ -31,6 +31,11 @@
                     <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.5);">
                         <template #header>
                             <p-image :src="getBannerUrl(topPlayedGame)"></p-image>
+                        </template>
+                        <template #title>
+                            <span class="flex text-4xl">
+                                    Top Played 
+                                </span>
                         </template>
                         <template #content>
                             <div class="flex flex-row justify-content-start align-items-center">
@@ -79,6 +84,9 @@
                     </p-card>
                 </div>
             </div>
+            <div class="flex flex-row w-11 mt-8">
+                <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
+            </div>
         </div>
     </div>
 </template>
@@ -100,6 +108,9 @@ export default {
             ratingLabels: [],
             ratingCounts: [],
             rating: {},
+            genreLabels: [],
+            genreCounts: [],
+            grenres: {},
             backlog: [],
             customers: null,
             loading: true,
@@ -107,7 +118,6 @@ export default {
             games: null,
             topTenPlaytime: [],
             topPlayedGame: [],
-            grenres: {},
         };
     },
     created() {
@@ -158,6 +168,8 @@ export default {
                         }
                     })
                 }
+                this.genreLabels = Object.keys(this.genres);
+                this.genreCounts = Object.values(this.genres);
             });
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -312,6 +324,70 @@ export default {
                 },
             };
         },
+        setGenreChartData() {
+            const documentStyle = getComputedStyle(document.body);
+            return {
+                labels: this.genreLabels,
+                datasets: [
+                    {
+                        label: "Genres",
+                        backgroundColor: [
+                            documentStyle.getPropertyValue('--cyan-500'),
+                            documentStyle.getPropertyValue('--green-500'),
+                            documentStyle.getPropertyValue('--yellow-500'),
+                            documentStyle.getPropertyValue('--orange-500'),
+                            documentStyle.getPropertyValue('--red-500'),
+                            documentStyle.getPropertyValue('--purple-500')
+                        ],
+                        data: this.genreCounts,
+                        borderWidth: 1,
+                    }
+                ],
+            };
+        },
+        setGenreOptions () {
+            //const documentStyle = getComputedStyle(document.documentElement);
+            //const textColor = documentStyle.getPropertyValue('--text-color');
+            //const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+            //const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+            return {
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            color: "white"
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        display: false,
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                            zeroLineColor: "white",
+                        },
+                        ticks: {
+                            display: false,
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: "white",
+                            font: {
+                                size: 15, 
+                            },
+                        }
+                    }
+                }
+            }
+        }, 
         getIconUrl(data) {
             var id = data.steamId;
             var hash = data.icon;
