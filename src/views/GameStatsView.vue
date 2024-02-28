@@ -84,8 +84,13 @@
                     </p-card>
                 </div>
             </div>
-            <div class="flex flex-row w-11 mt-8">
-                <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
+            <div class="flex flex-row w-11 mt-8 mb-5">
+                <div class="flex flex-column w-full md:w-40rem">
+                    <span class="flex text-4xl mb-3">
+                        Game Genre Breakdown
+                    </span>
+                    <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
+                </div>
             </div>
         </div>
     </div>
@@ -94,8 +99,10 @@
 <script>
 //TODO:
 // Most popular genre widget (maybe genre breakdown? Bar chart?)
-// 
+// Favorite games widget (or maybe 'recent hits' or something)
+// Completed this year table? Maybe better on other page
 import axios from "axios";
+import Gradient from "javascript-color-gradient";
 export default {
     name: "GameStatsView",
     components: {
@@ -168,13 +175,20 @@ export default {
                         }
                     })
                 }
-                this.genreLabels = Object.keys(this.genres);
-                this.genreCounts = Object.values(this.genres);
             });
+            
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
+            
             this.topTenPlaytime.splice(4, 1);
             this.topTenPlaytime.sort((a,b) => Number(b.hours) - Number(a.hours));
+            
+            var sortable = Object.entries(this.genres)
+                .sort(([,a],[,b]) => b-a)
+                .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+            this.genres = sortable;
+            this.genreLabels = Object.keys(this.genres);
+            this.genreCounts = Object.values(this.genres);
             console.log(this.genres);
         },
         comparePlaytime(game){
@@ -325,20 +339,17 @@ export default {
             };
         },
         setGenreChartData() {
-            const documentStyle = getComputedStyle(document.body);
+            //const documentStyle = getComputedStyle(document.body);
+            var gradientArray = new Gradient()
+                .setColorGradient("#36f736", "#f72828")
+                .setMidpoint(this.genreCounts.length)
+                .getColors();
             return {
                 labels: this.genreLabels,
                 datasets: [
                     {
                         label: "Genres",
-                        backgroundColor: [
-                            documentStyle.getPropertyValue('--cyan-500'),
-                            documentStyle.getPropertyValue('--green-500'),
-                            documentStyle.getPropertyValue('--yellow-500'),
-                            documentStyle.getPropertyValue('--orange-500'),
-                            documentStyle.getPropertyValue('--red-500'),
-                            documentStyle.getPropertyValue('--purple-500')
-                        ],
+                        backgroundColor: gradientArray,
                         data: this.genreCounts,
                         borderWidth: 1,
                     }

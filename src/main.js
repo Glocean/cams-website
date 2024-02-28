@@ -69,6 +69,7 @@ library.add(faChartSimple);
 library.add(faTable);
 library.add(faClock);
 
+import { Gradient } from "javascript-color-gradient";
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
@@ -101,5 +102,6 @@ app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
 app.component('p-chart', Chart);
+app.use(Gradient);
 
 app.mount("#app");
