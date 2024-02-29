@@ -7,7 +7,7 @@
                         <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
                 </div>
                 <div class="flex flex-column justify-content-center align-items-center w-full h-full">
-                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0);">
+                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
                             <div class="flex flex-row justify-content-center align-items-center">
                                 <div class="flex flex-column justify-content-center align-items-center mr-3">
@@ -28,7 +28,7 @@
                             </div>
                         </template>
                     </p-card>
-                    <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.5);">
+                    <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.4);">
                         <template #header>
                             <p-image :src="getBannerUrl(topPlayedGame)"></p-image>
                         </template>
@@ -86,10 +86,14 @@
             </div>
             <div class="flex flex-row w-11 mt-8 mb-5">
                 <div class="flex flex-column w-full md:w-40rem">
-                    <span class="flex text-4xl mb-3">
-                        Game Genre Breakdown
-                    </span>
-                    <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
+                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
+                        <template #content>
+                            <span class="flex text-4xl mb-3">
+                                Game Genre Breakdown
+                            </span>
+                            <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
+                        </template>
+                    </p-card>
                 </div>
             </div>
         </div>
@@ -101,6 +105,7 @@
 // Most popular genre widget (maybe genre breakdown? Bar chart?)
 // Favorite games widget (or maybe 'recent hits' or something)
 // Completed this year table? Maybe better on other page
+// Average rating by genre
 import axios from "axios";
 import Gradient from "javascript-color-gradient";
 export default {
@@ -189,7 +194,6 @@ export default {
             this.genres = sortable;
             this.genreLabels = Object.keys(this.genres);
             this.genreCounts = Object.values(this.genres);
-            console.log(this.genres);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
