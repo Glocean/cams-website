@@ -53,6 +53,9 @@ import { faSteam } from "@fortawesome/free-brands-svg-icons";
 import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import { faTable } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -68,8 +71,10 @@ library.add(faSteam);
 library.add(faChartSimple);
 library.add(faTable);
 library.add(faClock);
+library.add(faStar);
+library.add(faStarHalfStroke);
+library.add(faStarOutline);
 
-import { Gradient } from "javascript-color-gradient";
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(router);
@@ -102,6 +107,5 @@ app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
 app.component('p-chart', Chart);
-app.use(Gradient);
 
 app.mount("#app");
