@@ -1,6 +1,6 @@
 <template>
     <p-datatable class="shadow-8" v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
-            filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title']" v-model:expandedRows="expandedRows" tableStyle="width: 50rem;height: 50rem">
+            filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title','genre']" v-model:expandedRows="expandedRows" tableStyle="width: 50rem;height: 50rem">
         <template #header>
             <div class="flex justify-content-between">
                 <div class="flex flex-row">
@@ -20,7 +20,7 @@
         <template #empty>
             <p class="flex flex-column align-items-center justify-content-center">No games found.</p>
         </template>
-        <template #loading> Loading customers data. Please wait. </template>
+        <template #loading> Loading game data. Please wait. </template>
         <p-column expander style="width: 5rem" />
         <p-column field="title" header="Title" sortable style="min-width: 18rem">
             <template #body="{ data }">
@@ -70,14 +70,19 @@
         <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
                 <div v-if=data.rating>
-                    <p-tag :value="data.rating" :severity="getRatingSeverity(data.rating)" />
+                  <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getRatingColor(data.rating)" />
+                  <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getRatingColor(data.rating)" />
+                  <!--
+                    <p-tag :value="data.rating" />
+                  -->
                 </div>
             </template>
             <template #filter="{ filterModel }">
                 <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
                     <template #option="slotProps">
                         <div class="flex align-items-center gap-2">
-                            <p-tag :value="slotProps.option" :severity="getRatingSeverity(slotProps.option)" />
+                            <font-awesome-icon v-for="index in getRatingStars(slotProps.options)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getRatingColor(data.rating)" />
+                          <font-awesome-icon v-if="getRatingHalfStar(slotProps.options)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getRatingColor(data.rating)" />
                         </div>
                     </template>
                 </p-multiSelect>
@@ -125,10 +130,9 @@
     props: ['gameData', 'loading'],
     data() {
       return {
-        customers: null,
         filters: null,
         statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
-        ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],
+        ratings: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
         expandedRows: []
       };
     },
@@ -171,23 +175,96 @@
             return 'warning';
         }
       },
-      getRatingSeverity(status) {
-        switch (status) {
+      getRatingColor(rating) {
+        switch (rating) {
           
-          case 'Bad':
-            return 'danger';
+          case '10':
+          case '9':
+            return '#56daf5';
           
-          case 'Ok':
-            return 'warning';
+          case '8':
+          case '7':  
+            return '#5ff56c';
           
-          case 'Good':
-            return 'secondary';
+          case '6':
+          case '5':
+            return '#e8f556';
           
-          case 'Great':
-            return 'info';
+          case '4':
+          case '3':
+            return '#f5b856';
   
-          case 'Love':
-            return 'success'; 
+          case '2':
+          case '1':
+            return '#f55656';
+
+        }
+      },
+      getRatingStars(rating) {
+        switch (rating) {
+          
+          case '10':
+            return 5;
+          
+          case '9':
+          case '8':  
+            return 4;
+          
+          case '7':
+          case '6':
+            return 3;
+          
+          case '5':
+          case '4':
+            return 2;
+  
+          case '3':
+          case '2':
+            return 1;
+          
+          case '1':
+            return 0;
+
+        }
+      },
+      getRatingHalfStar(rating) {
+        switch (rating) {
+          
+          case '9':
+          case '7':
+          case '5':
+          case '3':
+          case '1':
+            return true;
+          
+          default:
+            return false;
+
+        }
+      },
+      getEmptyStars(rating) {
+        switch (rating) {
+          
+          case '10':
+          case '9':
+            return 0;
+          
+          case '8':
+          case '7':  
+            return 1;
+          
+          case '6':
+          case '5':
+            return 2;
+          
+          case '4':
+          case '3':
+            return 3;
+  
+          case '2':
+          case '1':
+            return 4;
+
         }
       },
       getIconUrl(data) {

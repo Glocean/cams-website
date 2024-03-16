@@ -36,7 +36,6 @@ export default {
       games: null,
       currentlyPlaying: [],
       backlog: [],
-      customers: null,
       filters: null,
       statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
       ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],
@@ -59,7 +58,7 @@ export default {
       const { data } = await axios.get(request);
       var input = data.values
       const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
-      //console.log(data.values)
+      console.log(data.values)
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
@@ -80,9 +79,6 @@ export default {
     formatTags(value) {
        return value.split(",");
     },
-    formatCurrency(value) {
-      return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    },
     clearFilter() {
       this.initFilters();
     },
@@ -93,12 +89,6 @@ export default {
         completion: { value: ['Finished', '100%', 'Abandoned'], matchMode: FilterMatchMode.IN },
         rating: { value: null, matchMode: FilterMatchMode.IN },
       };
-    },
-    getCustomers(data) {
-      return [...(data || [])].map((d) => {
-        d.date = new Date(d.date);
-        return d;
-      });
     },
     getSeverity(status) {
       switch (status) {
@@ -114,25 +104,7 @@ export default {
         
         case 'In Progress':
           return 'warning';
-      }
-    },
-    getRatingSeverity(status) {
-      switch (status) {
         
-        case 'Bad':
-          return 'danger';
-        
-        case 'Ok':
-          return 'warning';
-        
-        case 'Good':
-          return 'secondary';
-        
-        case 'Great':
-          return 'info';
-
-        case 'Love':
-          return 'success'; 
       }
     },
     getIconUrl(data) {
