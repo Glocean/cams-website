@@ -83,6 +83,19 @@
                         </template>
                     </p-card>
                 </div>
+                <div class="flex flex-column justify-content-center align-items-center w-full h-full pl-8">
+                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
+                        <template #content>
+                            <span class="flex text-4xl mb-3">
+                                Genre Ratings
+                            </span>
+                            <span class="flex text-2xl mb-3">
+                                {{ this.currentGenre }}
+                            </span>
+                            <p-chart type="bar" :data="setGenreRatingsChartData()" :options="setGenreRatingsOptions()" class="w-full md:w-40rem" />
+                        </template>
+                    </p-card>
+                </div>
             </div>
             <div class="flex flex-row w-11 mt-8 mb-5">
                 <div class="flex flex-column w-full md:w-40rem">
@@ -102,7 +115,6 @@
   
 <script>
 //TODO:
-// Most popular genre widget (maybe genre breakdown? Bar chart?)
 // Favorite games widget (or maybe 'recent hits' or something)
 // Completed this year table? Maybe better on other page
 // Average rating by genre
@@ -123,6 +135,9 @@ export default {
             genreLabels: [],
             genreCounts: [],
             grenres: {},
+            genreRatings: {},
+            genreAvgRatings: {},
+            currentGenre: null,
             backlog: [],
             customers: null,
             loading: true,
@@ -139,6 +154,10 @@ export default {
     methods: {
         async getGames() {
             this.genres = {};
+            this.genreAvgRatings = {};
+            this.genreRatings = {};
+            this.currentGenre = "Total";
+            this.genreRatings["Total"] = [0,0,0,0,0,0,0,0,0,0];
             this.loading = true;
             this.games = null;
             this.totalPlaytime = 0;
@@ -174,13 +193,26 @@ export default {
                     genreArr = this.formatTags(item.genre);
                     genreArr.forEach((tag) => {
                         if(tag in this.genres){
-                            this.genres[tag] += 1;
+                            this.genres[tag]++;
+                            this.genreRatings[tag][Number(item.rating)-1]++;
+                            this.genreRatings["Total"][Number(item.rating)-1]++;
+                            this.genreAvgRatings[tag] += Number(item.rating);
                         }else{
                             this.genres[tag] = 1;
+                            this.genreRatings[tag] = [0,0,0,0,0,0,0,0,0,0];
+                            this.genreRatings[tag][Number(item.rating)-1]++;
+                            this.genreRatings["Total"][Number(item.rating)-1]++;
+                            this.genreAvgRatings[tag] = Number(item.rating);
                         }
                     })
                 }
             });
+            
+            for (const genreVar in this.genreAvgRatings) {
+                this.genreAvgRatings[genreVar] = this.genreAvgRatings[genreVar]/this.genres[genreVar];
+            }
+            console.log(this.genreRatings);
+            console.log(this.genreAvgRatings);
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -194,6 +226,9 @@ export default {
             this.genres = sortable;
             this.genreLabels = Object.keys(this.genres);
             this.genreCounts = Object.values(this.genres);
+            console.log(this.genreLabels.length);
+            console.log(this.genres);
+            console.log(this.currentGenre);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
@@ -401,6 +436,41 @@ export default {
                         }
                     }
                 }
+            }
+        }, 
+        setGenreRatingsChartData() {
+            //const documentStyle = getComputedStyle(document.body);
+            var gradientArray = new Gradient()
+                .setColorGradient("#f72828", "#36f736")
+                .setMidpoint(10)
+                .getColors();
+            return {
+                labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                datasets: [
+                    {
+                        label: "Ratings",
+                        backgroundColor: gradientArray,
+                        data: this.genreRatings[this.currentGenre],
+                        borderWidth: 1,
+                    }
+                ],
+            };
+        },
+        setGenreRatingsOptions () {
+            //const documentStyle = getComputedStyle(document.documentElement);
+            //const textColor = documentStyle.getPropertyValue('--text-color');
+            //const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+            //const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+            return {
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            color: "white"
+                        }
+                    },
+                },
             }
         }, 
         getIconUrl(data) {
