@@ -84,14 +84,19 @@
                     </p-card>
                 </div>
                 <div class="flex flex-column justify-content-center align-items-center w-full h-full pl-8">
-                    <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
+                    <p-card class="shadow-8 w-30rem" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
-                            <span class="flex text-4xl mb-3">
-                                Genre Ratings
-                            </span>
-                            <span class="flex text-2xl mb-3">
-                                {{ this.currentGenre }}
-                            </span>
+                            <div class="flex flex-row align-items-center justify-content-between">
+                                <span class="flex text-4xl mb-3">
+                                    Genre Ratings
+                                </span>
+                                <p-dropdown v-model="currentGenre" :options="['All'].concat(genreLabels)" optionLabel:="genre" filter/>
+                            </div>
+                            <div class="flex flex-row align-items-center">
+                                <span class="flex text-2xl mb-3 mr-3">
+                                    Average Rating: {{ genreAvgRatings[currentGenre] }}
+                                </span>
+                            </div>
                             <p-chart type="bar" :data="setGenreRatingsChartData()" :options="setGenreRatingsOptions()" class="w-full md:w-40rem" />
                         </template>
                     </p-card>
@@ -155,11 +160,13 @@ export default {
         async getGames() {
             this.genres = {};
             this.genreAvgRatings = {};
+            this.genreAvgRatings["All"] = 0;
             this.genreRatings = {};
-            this.currentGenre = "Total";
-            this.genreRatings["Total"] = [0,0,0,0,0,0,0,0,0,0];
+            this.currentGenre = "All";
+            this.genreRatings["All"] = [0,0,0,0,0,0,0,0,0,0];
             this.loading = true;
             this.games = null;
+            var totalGamesWithGenre = 0;
             this.totalPlaytime = 0;
             this.topTenPlaytime = [];
             const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+process.env.VUE_APP_API_KEY
@@ -190,29 +197,30 @@ export default {
 
                 // Tags
                 if(item.genre){
+                    this.genreRatings["All"][Number(item.rating)-1]++;
+                    this.genreAvgRatings["All"] += Number(item.rating);
+                    totalGamesWithGenre++;
                     genreArr = this.formatTags(item.genre);
                     genreArr.forEach((tag) => {
                         if(tag in this.genres){
                             this.genres[tag]++;
                             this.genreRatings[tag][Number(item.rating)-1]++;
-                            this.genreRatings["Total"][Number(item.rating)-1]++;
                             this.genreAvgRatings[tag] += Number(item.rating);
                         }else{
                             this.genres[tag] = 1;
                             this.genreRatings[tag] = [0,0,0,0,0,0,0,0,0,0];
                             this.genreRatings[tag][Number(item.rating)-1]++;
-                            this.genreRatings["Total"][Number(item.rating)-1]++;
                             this.genreAvgRatings[tag] = Number(item.rating);
                         }
                     })
                 }
             });
             
+            var allGenreTotal = this.genreAvgRatings["All"];
             for (const genreVar in this.genreAvgRatings) {
-                this.genreAvgRatings[genreVar] = this.genreAvgRatings[genreVar]/this.genres[genreVar];
+                this.genreAvgRatings[genreVar] = Math.round((this.genreAvgRatings[genreVar]/this.genres[genreVar]) * 100)/100;
             }
-            console.log(this.genreRatings);
-            console.log(this.genreAvgRatings);
+            this.genreAvgRatings["All"] = Math.round((allGenreTotal/totalGamesWithGenre) * 100)/100;
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -226,9 +234,6 @@ export default {
             this.genres = sortable;
             this.genreLabels = Object.keys(this.genres);
             this.genreCounts = Object.values(this.genres);
-            console.log(this.genreLabels.length);
-            console.log(this.genres);
-            console.log(this.currentGenre);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
@@ -445,7 +450,7 @@ export default {
                 .setMidpoint(10)
                 .getColors();
             return {
-                labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                 datasets: [
                     {
                         label: "Ratings",
