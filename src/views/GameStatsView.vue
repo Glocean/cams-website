@@ -34,8 +34,8 @@
                         </template>
                         <template #title>
                             <span class="flex text-4xl">
-                                    Top Played 
-                                </span>
+                                Top Played 
+                            </span>
                         </template>
                         <template #content>
                             <div class="flex flex-row justify-content-start align-items-center">
@@ -84,6 +84,43 @@
                     </p-card>
                 </div>
                 <div class="flex flex-column justify-content-center align-items-center w-full h-full pl-8">
+                    <p-card class="shadow-8 w-30rem mb-5" style="background:rgba(0, 0, 0, 0.4);">
+                        <template #content>
+                            <div class="flex flex-row align-items-center justify-content-between">
+                                <span class="flex text-4xl">
+                                    <b>Top Genres</b>
+                                </span>
+                            </div>
+                            <div v-for="item, index in topFiveGenres" v-bind:key="item[0]" class="flex flex-row justify-content-start align-items-center mt-3" >
+                                <div class="flex flex-row justify-content-between align-items-center w-full">
+                                    <div class="flex flex-row justify-content-start align-items-center">
+                                        <div class="flex flex-column justify-content-center align-items-center mr-3">
+                                            <span class="flex text-4xl">
+                                                #{{ index+1 }}. 
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-column justify-content-center">
+                                            <div class="flex flex-row">
+                                                <span class="flex text-2xl">
+                                                    {{ item[0] }}
+                                                </span>
+                                            </div>
+                                            <div class="flex flex-row mt-1">
+                                                <span class="flex text-md">
+                                                    Total Games: {{ genres[item[0]] }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-column justify-content-center align-items-center mr-3">
+                                        <span class="flex text-4xl">
+                                            <i>{{ item[1] }}/10</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </p-card>
                     <p-card class="shadow-8 w-30rem" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
                             <div class="flex flex-row align-items-center justify-content-between">
@@ -142,6 +179,7 @@ export default {
             grenres: {},
             genreRatings: {},
             genreAvgRatings: {},
+            topFiveGenres: [],
             currentGenre: null,
             backlog: [],
             customers: null,
@@ -164,6 +202,7 @@ export default {
             this.genreRatings = {};
             this.currentGenre = "All";
             this.genreRatings["All"] = [0,0,0,0,0,0,0,0,0,0];
+            this.topFiveGenres = [];
             this.loading = true;
             this.games = null;
             var totalGamesWithGenre = 0;
@@ -221,6 +260,9 @@ export default {
                 this.genreAvgRatings[genreVar] = Math.round((this.genreAvgRatings[genreVar]/this.genres[genreVar]) * 100)/100;
             }
             this.genreAvgRatings["All"] = Math.round((allGenreTotal/totalGamesWithGenre) * 100)/100;
+            const sortedScores = Object.entries(this.genreAvgRatings).sort(([,a],[,b]) => Number(b) - Number(a));
+            this.topFiveGenres = sortedScores.slice(0, 5);
+            console.log(this.topFiveGenres);
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -234,6 +276,7 @@ export default {
             this.genres = sortable;
             this.genreLabels = Object.keys(this.genres);
             this.genreCounts = Object.values(this.genres);
+            console.log(this.topTenPlaytime);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));
