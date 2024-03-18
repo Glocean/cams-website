@@ -6,7 +6,7 @@ import PrimeVue from 'primevue/config';
 // Styles
 import 'primevue/resources/themes/aura-dark-teal/theme.css'
 import 'primeicons/primeicons.css'
-import '/node_modules/primeflex/primeflex.css'
+import 'primeflex/primeflex.css'
 
 //Components
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
