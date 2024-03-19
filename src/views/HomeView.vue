@@ -2,7 +2,7 @@
   <div class="home">
     <div class="flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">  
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
-        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/src/assets/headshot.png"/>
+        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="src/assets/headshot.png"/>
         <div class="flex flex-column m-8">
           <div class="flex flex-row align-items-center justify-content-center">Cameron Dahr</div>
           <div class="flex flex-row align-items-center justify-content-center m-3">

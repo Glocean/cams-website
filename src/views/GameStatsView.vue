@@ -262,7 +262,6 @@ export default {
             this.genreAvgRatings["All"] = Math.round((allGenreTotal/totalGamesWithGenre) * 100)/100;
             const sortedScores = Object.entries(this.genreAvgRatings).sort(([,a],[,b]) => Number(b) - Number(a));
             this.topFiveGenres = sortedScores.slice(0, 5);
-            console.log(this.topFiveGenres);
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -276,7 +275,6 @@ export default {
             this.genres = sortable;
             this.genreLabels = Object.keys(this.genres);
             this.genreCounts = Object.values(this.genres);
-            console.log(this.topTenPlaytime);
         },
         comparePlaytime(game){
             this.topTenPlaytime.sort((a,b) => Number(a.hours) - Number(b.hours));

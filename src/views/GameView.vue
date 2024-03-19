@@ -58,7 +58,6 @@ export default {
       const { data } = await axios.get(request);
       var input = data.values
       const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
-      console.log(data.values)
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
