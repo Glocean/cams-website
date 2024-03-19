@@ -1,7 +1,7 @@
 <template>
     <p-menu class="navbar" :model="items">
         <template #start>
-            <p-image alt="logo" src="../src/assets/Logo_shadow.png" width="50" class="mr-2"/>
+            <p-image alt="logo" src="/logo.png" width="50" class="mr-2"/>
         </template>
         <template #item="{ item, props, hasSubmenu }">
             <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
