@@ -1,7 +1,7 @@
 <template>
   <Navbar/>
   <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
-    <source :src="require('@/assets/Underwater_Garden.mp4')" type="video/mp4">
+    <source src="/src/assets/Underwater_Garden.mp4" type="video/mp4">
   </video>
   <div id="overlay"/>
   <router-view/>

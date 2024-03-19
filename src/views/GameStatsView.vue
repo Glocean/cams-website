@@ -208,7 +208,7 @@ export default {
             var totalGamesWithGenre = 0;
             this.totalPlaytime = 0;
             this.topTenPlaytime = [];
-            const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+process.env.VUE_APP_API_KEY
+            const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
             const { data } = await axios.get(request);
             var input = data.values
             const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
@@ -292,7 +292,7 @@ export default {
             this.completion = {};
             this.completionLabels = [];
             this.completionCounts = [];
-            const request = "https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/'Aggregation'!H6:I10?key="+process.env.VUE_APP_API_KEY
+            const request = "https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/'Aggregation'!H6:I10?key="+import.meta.env.VITE_API_KEY
             const { data } = await axios.get(request);
             var input = data.values
             for (let i = 0; i < input.length; i++) {
@@ -309,7 +309,7 @@ export default {
             this.rating = {};
             this.ratingLabels = [];
             this.ratingCounts = [];
-            const request = "https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/'Aggregation'!H27:I31?key="+process.env.VUE_APP_API_KEY
+            const request = "https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/'Aggregation'!H27:I31?key="+import.meta.env.VITE_API_KEY
             const { data } = await axios.get(request);
             var input = data.values
             for (let i = 0; i < input.length; i++) {
