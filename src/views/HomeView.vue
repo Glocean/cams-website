@@ -25,7 +25,7 @@
             </p-button>
             <p-button severity="warning" text link rounded aria-label="LetterBoxd" v-tooltip.bottom="{ value: 'Letterboxd' }">
               <template #icon>
-                <a href="https://letterboxd.com/Cam_Dahr/" target="_blank">
+                <a href="https://letterboxd.com/Glocean/" target="_blank">
                   <font-awesome-icon class="text-3xl" icon="fa-brands fa-letterboxd" color="#ff8000" />
                 </a>
               </template>
