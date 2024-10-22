@@ -2,7 +2,7 @@
   <div class="home">
     <div class="flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">  
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
-        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/headshot.png"/>
+        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/cam_vic.jpg"/>
         <div class="flex flex-column m-8">
           <div class="flex flex-row align-items-center justify-content-center">Cameron Dahr</div>
           <div class="flex flex-row align-items-center justify-content-center m-3">
@@ -23,17 +23,17 @@
                 </a>
               </template>
             </p-button>
-            <p-button severity="warning" text link rounded aria-label="LetterBoxd" v-tooltip.bottom="{ value: 'Letterboxd' }">
+            <p-button severity="warning" text link aria-label="LetterBoxd" v-tooltip.bottom="{ value: 'Letterboxd' }">
               <template #icon>
                 <a href="https://letterboxd.com/Glocean/" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-letterboxd" color="#ff8000" />
+                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-square-letterboxd" color="#00e054" />
                 </a>
               </template>
             </p-button>
             <p-button severity="success" text aria-label="Facebook" v-tooltip.bottom="{ value: 'Facebook' }">
               <template #icon>
                 <a href="https://www.facebook.com/cameron.dahr.1" target="_blank">
-                  <font-awesome-icon class="text-4xl" icon="fa-brands fa-square-facebook" color="lime"/>
+                  <font-awesome-icon class="text-4xl" icon="fa-brands fa-square-facebook" color="#1547ad"/>
                 </a>
               </template>
             </p-button>
@@ -47,7 +47,7 @@
             <p-button severity="danger" text aria-label="Youtube" v-tooltip.bottom="{ value: 'YouTube' }">
               <template #icon>
                 <a href="https://www.youtube.com/@GloceanTTV" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-youtube" color="#ff5555"/>
+                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-youtube" color="#DD0000"/>
                 </a>
               </template>
             </p-button>

@@ -41,6 +41,7 @@ import Chart from 'primevue/chart';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faLetterboxd } from "@fortawesome/free-brands-svg-icons";
+import { faSquareLetterboxd } from "@fortawesome/free-brands-svg-icons";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { faTwitch } from "@fortawesome/free-brands-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
@@ -59,6 +60,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
+library.add(faSquareLetterboxd);
 library.add(faSquareFacebook);
 library.add(faTwitch);
 library.add(faYoutube);
