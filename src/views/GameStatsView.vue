@@ -260,7 +260,16 @@ export default {
             }
             this.genreAvgRatings["All"] = Math.round((allGenreTotal/totalGamesWithGenre) * 100)/100;
             const sortedScores = Object.entries(this.genreAvgRatings).sort(([,a],[,b]) => Number(b) - Number(a));
-            this.topFiveGenres = sortedScores.slice(0, 5);
+            var numSelected = 0;
+            var scoreIndex = 0;
+            while (numSelected < 5) {
+                if (this.genres[sortedScores[scoreIndex][0]] >= 3){
+                    this.topFiveGenres[numSelected] = sortedScores[scoreIndex];
+                    numSelected++;
+                }
+                scoreIndex++;
+            }
+            //this.topFiveGenres = sortedScores.slice(0, 5);
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
             this.topPlayedGame = this.topTenPlaytime[4];
@@ -426,15 +435,15 @@ export default {
             //const documentStyle = getComputedStyle(document.body);
             var gradientArray = new Gradient()
                 .setColorGradient("#36f736", "#f72828")
-                .setMidpoint(this.genreCounts.length)
+                .setMidpoint(30)
                 .getColors();
             return {
-                labels: this.genreLabels.slice(0,21),
+                labels: this.genreLabels.slice(0,30),
                 datasets: [
                     {
                         label: "Genres",
                         backgroundColor: gradientArray,
-                        data: this.genreCounts.slice(0,21),
+                        data: this.genreCounts.slice(0,30),
                         borderWidth: 1,
                     }
                 ],
