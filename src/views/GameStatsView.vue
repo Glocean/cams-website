@@ -144,7 +144,7 @@
                     <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
                             <span class="flex text-4xl mb-3">
-                                Game Genre Breakdown
+                                Most Played Genres
                             </span>
                             <p-chart type="bar" :data="setGenreChartData()" :options="setGenreOptions()" class="w-full md:w-40rem" />
                         </template>
@@ -159,7 +159,6 @@
 //TODO:
 // Favorite games widget (or maybe 'recent hits' or something)
 // Completed this year table? Maybe better on other page
-// Average rating by genre
 import axios from "axios";
 import Gradient from "javascript-color-gradient";
 export default {
@@ -430,12 +429,12 @@ export default {
                 .setMidpoint(this.genreCounts.length)
                 .getColors();
             return {
-                labels: this.genreLabels,
+                labels: this.genreLabels.slice(0,21),
                 datasets: [
                     {
                         label: "Genres",
                         backgroundColor: gradientArray,
-                        data: this.genreCounts,
+                        data: this.genreCounts.slice(0,21),
                         borderWidth: 1,
                     }
                 ],
