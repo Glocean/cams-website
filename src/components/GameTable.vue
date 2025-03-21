@@ -105,25 +105,25 @@
                     <span>{{ truncateString(slotProps.data.notes, 250) }}</span>
                     <span v-if="slotProps.data.notes.length > 250">
                       <span>...</span>
-                      <p-button class="p-0" link><span @click="showReviewDialog = true">[Show More]</span></p-button>
-                      <p-dialog v-model:visible="showReviewDialog" modal :header="slotProps.data.title" :style="{ width: '25rem' }" dismissableMask>
-                        <template #header>
-                          <div class="inline-flex align-items-center justify-content-center gap-2">
-                            <div v-if="slotProps.data.icon" class="mr-3">
-                              <p-image :src="getIconUrl(slotProps.data)"></p-image>
-                            </div>
-                            <span class="text-xl">
-                                {{ slotProps.data.title }}
-                            </span>
-                          </div>
-                        </template>
-                        <span>{{ slotProps.data.notes }}</span>
-                      </p-dialog>
+                      <p-button class="p-0" link><span @click="showReviewDialog(slotProps.data)">[Show More]</span></p-button>
                     </span>
                   </div>
                 </div>
             </div>
         </template>
+        <p-dialog v-model:visible="showReviewDialogVal" modal :style="{ width: '25rem' }" dismissableMask>
+              <template #header>
+                <div class="inline-flex align-items-center justify-content-center gap-2">
+                  <div v-if="reviewIcon" class="mr-3">
+                    <p-image :src="getIconUrl(reviewIcon)"></p-image>
+                  </div>
+                  <span class="text-xl">
+                      {{ reviewTitle }}
+                  </span>
+                </div>
+              </template>
+              <span>{{ review }}</span>
+            </p-dialog>
     </p-datatable>
 </template>
   
@@ -140,14 +140,14 @@
         ratings: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
         expandedRows: [],
         scoreType: 'false',
-        review: '',
-        showReviewDialog: 'false',
+        review: null,
+        reviewTitle: null,
+        reviewIcon: null,
+        showReviewDialogVal: false,
       };
     },
     created() {
       this.initFilters();
-    },
-    mounted() {
     },
     methods: {
       formatTags(value) {
@@ -328,6 +328,19 @@
       truncateString(yourString, maxLength) {
         const index = yourString.indexOf(" ", maxLength);
         return index === -1 ? yourString : yourString.substring(0, index)
+      },
+      showReviewDialog(gameData) {
+        this.review = null;
+        this.reviewTitle = null;
+        this.reviewIcon = null;
+        this.review = gameData.notes;
+        this.reviewTitle = gameData.title;
+        this.reviewIcon = gameData;
+        console.log("REVIEW TEST")
+        //console.log(gameData);
+        if(gameData.title != ""){
+          this.showReviewDialogVal = true;
+        }
       },
     },
   };
