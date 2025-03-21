@@ -36,11 +36,14 @@ import InputIcon from 'primevue/inputicon';
 import Carousel from 'primevue/carousel';
 import Galleria from 'primevue/galleria';
 import Chart from 'primevue/chart';
+import Dialog from 'primevue/dialog';
+//import ToggleSwitch from 'primevue/toggleswitch';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faLetterboxd } from "@fortawesome/free-brands-svg-icons";
+import { faSquareLetterboxd } from "@fortawesome/free-brands-svg-icons";
 import { faSquareFacebook } from "@fortawesome/free-brands-svg-icons";
 import { faTwitch } from "@fortawesome/free-brands-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
@@ -59,6 +62,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 library.add(faPhone);
 library.add(faLetterboxd);
+library.add(faSquareLetterboxd);
 library.add(faSquareFacebook);
 library.add(faTwitch);
 library.add(faYoutube);
@@ -107,5 +111,7 @@ app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
 app.component('p-chart', Chart);
+app.component('p-dialog', Dialog);
+//app.component('p-toggleSwitch', ToggleSwitch);
 
 app.mount("#app");

@@ -5,7 +5,7 @@
             <div class="flex justify-content-between">
                 <div class="flex flex-row">
                   <p-button class="mr-2" type="button" icon="pi pi-refresh" label="Refresh" outlined @click="refresh()" />
-                  <p-button type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
+                  <p-button class="mr-2" type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
                 </div>
                 <div class="flex flex-row">
                   <p-iconField iconPosition="left">
@@ -53,36 +53,24 @@
                 {{ data.hours }} hours
             </template>
         </p-column>
-        <!--
-        <p-column header="Date" filterField="date" dataType="date" style="min-width: 10rem">
-            <template #body="{ data }">
-                {{ data.date }}
-            </template>
-        </p-column>
-        <p-column field="genre" header="Genres" sortable style="min-width: 12rem">
-            <template #body="{ data }">
-                <div v-if=data.genre>
-                    <p-tag v-for="item in formatTags(data.genre)" :value=item severity="secondary" v-bind:key="item" class="m-1"/>
-                </div>
-            </template>
-        </p-column>
-        -->
         <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
-                <div v-if=data.rating>
-                  <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getRatingColor(data.rating)" />
-                  <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getRatingColor(data.rating)" />
-                  <!--
-                    <p-tag :value="data.rating" />
-                  -->
-                </div>
+                <p-button v-if=data.rating severity="info" text link v-tooltip.bottom="{ value: 'View Metacritic' }">
+                  <a :href="getMetacriticPageUrl(data)" target="_blank">
+                    <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getStarColor(data.rating)" />
+                    <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getStarColor(data.rating)" />
+                    <font-awesome-icon v-for="index in getRatingStars(String(10-Number(data.rating)))" :key="index" class="text-xl" icon="fa-regular fa-star" :color="getStarColor(data.rating)" />
+                    <!--
+                    <p-tag :value="data.rating" :severity="getRatingColor(data.rating)"/>
+                    -->
+                  </a>
+                </p-button>
             </template>
             <template #filter="{ filterModel }">
                 <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
                     <template #option="slotProps">
                         <div class="flex align-items-center gap-2">
-                            <font-awesome-icon v-for="index in getRatingStars(slotProps.options)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getRatingColor(data.rating)" />
-                          <font-awesome-icon v-if="getRatingHalfStar(slotProps.options)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getRatingColor(data.rating)" />
+                          <p-tag :value="slotProps.option" :severity="getRatingColor(slotProps.option)"/>
                         </div>
                     </template>
                 </p-multiSelect>
@@ -114,7 +102,24 @@
                     <p-tag v-for="item in formatTags(slotProps.data.genre)" :value=item severity="secondary" v-bind:key="item" class="mr-2"/>
                   </div>
                   <div v-if="slotProps.data.notes" class="font-medium text-secondary text-sm mt-3">
-                    <span>{{ slotProps.data.notes }}</span>
+                    <span>{{ truncateString(slotProps.data.notes, 250) }}</span>
+                    <span v-if="slotProps.data.notes.length > 250">
+                      <span>...</span>
+                      <p-button class="p-0" link><span @click="showReviewDialog = true">[Show More]</span></p-button>
+                      <p-dialog v-model:visible="showReviewDialog" modal :header="slotProps.data.title" :style="{ width: '25rem' }" dismissableMask>
+                        <template #header>
+                          <div class="inline-flex align-items-center justify-content-center gap-2">
+                            <div v-if="slotProps.data.icon" class="mr-3">
+                              <p-image :src="getIconUrl(slotProps.data)"></p-image>
+                            </div>
+                            <span class="text-xl">
+                                {{ slotProps.data.title }}
+                            </span>
+                          </div>
+                        </template>
+                        <span>{{ slotProps.data.notes }}</span>
+                      </p-dialog>
+                    </span>
                   </div>
                 </div>
             </div>
@@ -133,7 +138,10 @@
         filters: null,
         statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
         ratings: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
-        expandedRows: []
+        expandedRows: [],
+        scoreType: 'false',
+        review: '',
+        showReviewDialog: 'false',
       };
     },
     created() {
@@ -175,7 +183,7 @@
             return 'warning';
         }
       },
-      getRatingColor(rating) {
+      getStarColor(rating) {
         switch (rating) {
           
           case '10':
@@ -197,6 +205,31 @@
           case '2':
           case '1':
             return '#f55656';
+
+        }
+      },
+      getRatingColor(rating) {
+        switch (rating) {
+          
+          case '10':
+          case '9':
+            return 'success';
+          
+          case '8':
+          case '7':  
+            return 'info';
+          
+          case '6':
+          case '5':
+            return 'primary';
+          
+          case '4':
+          case '3':
+            return 'warn';
+  
+          case '2':
+          case '1':
+            return 'danger';
 
         }
       },
@@ -286,6 +319,15 @@
         var title = data.title.replace(/ /g,"_").replace(/'/g, '');
         var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
         return steamPage;
+      },
+      getMetacriticPageUrl(data) {
+        var title = data.title.replace(/— /g,"").replace(/- /g,"").replace(/ /g,"-").replace(/'/g, '').replace(/:/g, '').replace(/™/g, '').toLowerCase();
+        var metacriticPage = "https://www.metacritic.com/game/"+title+"/";
+        return metacriticPage;
+      },
+      truncateString(yourString, maxLength) {
+        const index = yourString.indexOf(" ", maxLength);
+        return index === -1 ? yourString : yourString.substring(0, index)
       },
     },
   };

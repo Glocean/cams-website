@@ -17,7 +17,7 @@
     "axios": "^1.6.7",
     "chart.js": "^4.4.1",
     "core-js": "^3.8.3",
-    "javascript-color-gradient": "^2.4.4",
+    "javascript-color-gradient": "^2.5.0",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.50.0",

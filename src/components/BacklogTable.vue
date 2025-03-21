@@ -9,7 +9,7 @@
                     <div v-if="item.steamId" class="p-4 border-1 surface-border surface-card border-round flex flex-column">
                         <div class="flex justify-content-center border-round">
                             <div class="relative mx-auto" v-if="item.steamId">
-                                <a :href="getSteamPageUrl(item)" target="_blank">
+                                <a :href="getHLTBPageUrl(item)" target="_blank">
                                     <p-image class="" :src="getBannerUrl(item)" width="250"></p-image>
                                 </a>
                             </div>
@@ -52,6 +52,11 @@
         var title = data.title.replace(/ /g,"_").replace(/'/g, '');
         var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
         return steamPage;
+      },
+      getHLTBPageUrl(data) {
+        var title = data.title.replace(/— /g,"").replace(/- /g,"").replace(/ /g,"%2520").replace(/'/g, '').replace(/:/g, '').replace(/™/g, '').toLowerCase();
+        var hLTBPage = "https://howlongtobeat.com/?q="+title;
+        return hLTBPage;
       }
     },
   };
