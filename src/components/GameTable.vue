@@ -6,7 +6,6 @@
                 <div class="flex flex-row">
                   <p-button class="mr-2" type="button" icon="pi pi-refresh" label="Refresh" outlined @click="refresh()" />
                   <p-button class="mr-2" type="button" icon="pi pi-filter-slash" label="Clear" outlined @click="clearFilter()" />
-                  <p-toggleSwitch type="button" outlined v-model="scoreType" onLabel="Scores" offLabel="Stars" />
                 </div>
                 <div class="flex flex-row">
                   <p-iconField iconPosition="left">
@@ -56,14 +55,16 @@
         </p-column>
         <p-column field="rating" header="Rating" filterField="rating" :showFilterMatchModes="false" :filterMenuStyle="{ width: '14rem' }" sortable style="min-width: 14rem">
             <template #body="{ data }">
-                <div v-if=data.rating>
-                  <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getStarColor(data.rating)" />
-                  <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getStarColor(data.rating)" />
-                  <font-awesome-icon v-for="index in getRatingStars(String(10-Number(data.rating)))" :key="index" class="text-xl" icon="fa-regular fa-star" :color="getStarColor(data.rating)" />
-                  <!--
-                  <p-tag :value="data.rating" :severity="getRatingColor(data.rating)"/>
-                  -->
-                </div>
+                <p-button v-if=data.rating severity="info" text link v-tooltip.bottom="{ value: 'View Metacritic' }">
+                  <a :href="getMetacriticPageUrl(data)" target="_blank">
+                    <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getStarColor(data.rating)" />
+                    <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getStarColor(data.rating)" />
+                    <font-awesome-icon v-for="index in getRatingStars(String(10-Number(data.rating)))" :key="index" class="text-xl" icon="fa-regular fa-star" :color="getStarColor(data.rating)" />
+                    <!--
+                    <p-tag :value="data.rating" :severity="getRatingColor(data.rating)"/>
+                    -->
+                  </a>
+                </p-button>
             </template>
             <template #filter="{ filterModel }">
                 <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
@@ -318,6 +319,11 @@
         var title = data.title.replace(/ /g,"_").replace(/'/g, '');
         var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
         return steamPage;
+      },
+      getMetacriticPageUrl(data) {
+        var title = data.title.replace(/— /g,"").replace(/- /g,"").replace(/ /g,"-").replace(/'/g, '').replace(/:/g, '').replace(/™/g, '').toLowerCase();
+        var metacriticPage = "https://www.metacritic.com/game/"+title+"/";
+        return metacriticPage;
       },
       truncateString(yourString, maxLength) {
         const index = yourString.indexOf(" ", maxLength);
