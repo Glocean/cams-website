@@ -36,6 +36,8 @@ import InputIcon from 'primevue/inputicon';
 import Carousel from 'primevue/carousel';
 import Galleria from 'primevue/galleria';
 import Chart from 'primevue/chart';
+import Dialog from 'primevue/dialog';
+//import ToggleSwitch from 'primevue/toggleswitch';
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -109,5 +111,7 @@ app.component('p-inputIcon', InputIcon);
 app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
 app.component('p-chart', Chart);
+app.component('p-dialog', Dialog);
+//app.component('p-toggleSwitch', ToggleSwitch);
 
 app.mount("#app");
