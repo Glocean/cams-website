@@ -41,9 +41,9 @@
                             <div class="flex flex-row justify-content-start align-items-center">
                                 <div class="flex flex-row justify-content-center align-items-center">
                                     <div class="flex flex-column justify-content-center align-items-center mr-3">
-                                        <span class="flex text-4xl">
-                                            #1. 
-                                        </span>
+                                        <div v-if="topPlayedGame.icon" class="mr-0">
+                                            <p-image :src="getIconUrl(topPlayedGame)"></p-image>
+                                        </div>
                                     </div>
                                     <div class="flex flex-column justify-content-center">
                                         <div class="flex flex-row">
@@ -62,9 +62,9 @@
                             <div v-for="item, index in topTenPlaytime" v-bind:key="item.title" class="flex flex-row justify-content-start align-items-center mt-3" >
                                 <div class="flex flex-row justify-content-center align-items-center">
                                     <div class="flex flex-column justify-content-center align-items-center mr-3">
-                                        <span class="flex text-4xl">
-                                            #{{ index+2 }}. 
-                                        </span>
+                                        <div v-if="item.icon" class="mr-0">
+                                            <p-image :src="getIconUrl(item)"></p-image>
+                                        </div>
                                     </div>
                                     <div class="flex flex-column justify-content-center">
                                         <div class="flex flex-row">
@@ -96,7 +96,6 @@
                                     <div class="flex flex-row justify-content-start align-items-center">
                                         <div class="flex flex-column justify-content-center align-items-center mr-3">
                                             <span class="flex text-4xl">
-                                                #{{ index+1 }}. 
                                             </span>
                                         </div>
                                         <div class="flex flex-column justify-content-center">
@@ -127,7 +126,7 @@
                                 <span class="flex text-4xl mb-3">
                                     Genre Ratings
                                 </span>
-                                <p-dropdown v-model="currentGenre" :options="['All'].concat(genreLabels)" optionLabel:="genre" filter/>
+                                <p-dropdown class="filter-popup" v-model="currentGenre" :options="['All'].concat(genreLabels)" optionLabel:="genre" filter/>
                             </div>
                             <div class="flex flex-row align-items-center">
                                 <span class="flex text-2xl mb-3 mr-3">
@@ -328,14 +327,13 @@ export default {
             this.loading = false;
         },
         setCompletionChartData() {
-            const documentStyle = getComputedStyle(document.body);
             return {
                 labels: this.completionLabels,
                 datasets: [
                     {
                         data: this.completionCounts,
-                        backgroundColor: [documentStyle.getPropertyValue('--cyan-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--purple-500')],
-                        hoverBackgroundColor: [documentStyle.getPropertyValue('--cyan-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--purple-400')],
+                        backgroundColor: ['#06b6d4', '#22c55e', '#eab308', '#ff3d32', '#a855f7'],
+                        hoverBackgroundColor: ['#44B8CD', '#43C171', '#E9C24D', '#FE726B', '#C180FE'],
                         borderColor: 'rgba(0, 0, 0, 0.1)',
                         borderWidth: 5,
                         borderAlign: 'inner',
@@ -364,8 +362,13 @@ export default {
                     legend: {
                         labels: {
                             usePointStyle: true,
-                            color: textColor,
                             padding: 20,
+                            color: 'white',
+                            font: {
+                                family: "Helvetica",
+                                size: 15,
+                                weight: "normal",
+                            },
                         },
                         display: true,
                         position: "right",
@@ -386,8 +389,8 @@ export default {
                 datasets: [
                     {
                         data: this.ratingCounts,
-                        backgroundColor: [documentStyle.getPropertyValue('--cyan-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--orange-500'), documentStyle.getPropertyValue('--red-500')],
-                        hoverBackgroundColor: [documentStyle.getPropertyValue('--cyan-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--orange-400'), documentStyle.getPropertyValue('--red-400')],
+                        backgroundColor: ['#06b6d4', '#22c55e', '#eab308', '#f97316', '#ff3d32'],
+                        hoverBackgroundColor: ['#44B8CD', '#43C171', '#E9C24D', '#FF9A52', '#FE726B'],
                         borderColor: 'rgba(0, 0, 0, 0.1)',
                         borderWidth: 5,
                         borderAlign: 'inner',
@@ -416,8 +419,13 @@ export default {
                     legend: {
                         labels: {
                             usePointStyle: true,
-                            color: textColor,
                             padding: 20,
+                            color: 'white',
+                            font: {
+                                family: "Helvetica",
+                                size: 15,
+                                weight: "normal",
+                            },
                         },
                         display: true,
                         position: "right",
@@ -485,9 +493,10 @@ export default {
                         ticks: {
                             color: "white",
                             font: {
-                                size: 15, 
+                                size: 18,
+                                family: "Helvetica",
                             },
-                        }
+                        },
                     }
                 }
             }
@@ -557,6 +566,10 @@ export default {
     height: -webkit-fill-available;
     width: 100%;
     place-items: center;
+}
+
+.body {
+    font-family: Avenir, Helvetica, Arial, sans-serif !important;
 }
   
 </style>

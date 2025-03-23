@@ -20,7 +20,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif !important;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -28,6 +28,7 @@ export default {
 }
 
 html, body{
+  font-family: Avenir, Helvetica, Arial, sans-serif !important;
   height: 100%;
   margin: 0px;
   padding: 0px;
