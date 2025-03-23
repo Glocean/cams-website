@@ -60,9 +60,9 @@
                     <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getStarColor(data.rating)" />
                     <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getStarColor(data.rating)" />
                     <font-awesome-icon v-for="index in getRatingStars(String(10-Number(data.rating)))" :key="index" class="text-xl" icon="fa-regular fa-star" :color="getStarColor(data.rating)" />
-                    
+                    <!--
                     <p-tag :value="data.rating" :severity="getRatingColor(data.rating)"/>
-                    
+                    -->
                   </a>
                 </p-button>
             </template>
