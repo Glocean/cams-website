@@ -4,9 +4,9 @@ import router from "./router";
 import PrimeVue from 'primevue/config';
 
 // Styles
-import 'primevue/resources/themes/aura-dark-teal/theme.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import Nora from '@primeuix/themes/aura';
 
 //Components
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -18,15 +18,14 @@ import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
 import DataView from 'primevue/dataview';
-import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
 import Row from 'primevue/row';
 import MultiSelect from 'primevue/multiselect';
 import InputText from 'primevue/inputtext';
-import Calendar from 'primevue/calendar';
+import DatePicker from 'primevue/datepicker';
 import InputNumber from 'primevue/inputnumber';
 import Tag from 'primevue/tag';
 import ProgressBar from 'primevue/progressbar';
@@ -80,7 +79,16 @@ library.add(faStarHalfStroke);
 library.add(faStarOutline);
 
 const app = createApp(App);
-app.use(PrimeVue);
+app.use(PrimeVue, {
+    theme: {
+        preset: Nora,
+        options: {
+            prefix: 'p',
+            darkModeSelector: 'system',
+            cssLayer: false
+        }
+    }
+ });
 app.use(router);
 
 // Use Components
@@ -93,15 +101,14 @@ app.component('p-card', Card);
 app.component('p-divider', Divider);
 app.directive('tooltip', Tooltip);
 app.component('p-dataView', DataView);
-app.component('p-dataViewLayoutOptions', DataViewLayoutOptions);
-app.component('p-dropdown', Dropdown);
+app.component('p-dropdown', Select);
 app.component('p-datatable', DataTable);
 app.component('p-column', Column);
 app.component('p-columnGroup', ColumnGroup);
 app.component('p-row', Row);
 app.component('p-multiSelect', MultiSelect);
 app.component('p-inputText', InputText);
-app.component('p-calendar', Calendar);
+app.component('p-calendar', DatePicker);
 app.component('p-inputnumber', InputNumber);
 app.component('p-tag', Tag);
 app.component('p-progressbar', ProgressBar);
