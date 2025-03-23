@@ -128,7 +128,7 @@
 </template>
   
 <script>
-  import { FilterMatchMode, FilterOperator } from 'primevue/api'
+  import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
   
   export default {
     name: "GameView",
@@ -336,7 +336,6 @@
         this.review = gameData.notes;
         this.reviewTitle = gameData.title;
         this.reviewIcon = gameData;
-        console.log("REVIEW TEST")
         //console.log(gameData);
         if(gameData.title != ""){
           this.showReviewDialogVal = true;

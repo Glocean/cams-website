@@ -4,9 +4,9 @@ import router from "./router";
 import PrimeVue from 'primevue/config';
 
 // Styles
-import 'primevue/resources/themes/aura-dark-teal/theme.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import Aura from '@primeuix/themes/aura';
 
 //Components
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -18,7 +18,6 @@ import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
 import DataView from 'primevue/dataview';
-import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions'
 import Dropdown from 'primevue/dropdown';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -80,7 +79,16 @@ library.add(faStarHalfStroke);
 library.add(faStarOutline);
 
 const app = createApp(App);
-app.use(PrimeVue);
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura,
+        options: {
+            prefix: 'p',
+            darkModeSelector: 'system',
+            cssLayer: false
+        }
+    }
+ });
 app.use(router);
 
 // Use Components
@@ -93,7 +101,6 @@ app.component('p-card', Card);
 app.component('p-divider', Divider);
 app.directive('tooltip', Tooltip);
 app.component('p-dataView', DataView);
-app.component('p-dataViewLayoutOptions', DataViewLayoutOptions);
 app.component('p-dropdown', Dropdown);
 app.component('p-datatable', DataTable);
 app.component('p-column', Column);

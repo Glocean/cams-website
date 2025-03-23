@@ -19,7 +19,7 @@
 
 <script>
 import axios from "axios";
-import { FilterMatchMode, FilterOperator } from 'primevue/api'
+import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
 import GameTable from "@/components/GameTable.vue";
 import CurrentlyPlaying from "@/components/CurrentlyPlaying.vue";
 import BacklogTable from "@/components/BacklogTable.vue";
