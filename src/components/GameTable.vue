@@ -1,5 +1,5 @@
 <template>
-    <p-datatable class="shadow-8" v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
+    <p-datatable class="gamesTable shadow-8" v-model:filters="filters" :value="gameData" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="title"
             filterDisplay="menu" :loading="loading" removableSort :globalFilterFields="['title','genre']" v-model:expandedRows="expandedRows" tableStyle="width: 50rem;height: 50rem">
         <template #header>
             <div class="flex justify-content-between">
@@ -39,9 +39,9 @@
                 <p-tag :value="data.completion" :severity="getSeverity(data.completion)" />
             </template>
             <template #filter="{ filterModel }">
-                <p-multiSelect v-model="filterModel.value" :options="statuses" placeholder="Any" class="p-column-filter">
+                <p-multiSelect class="p-column-filter filter-popup" v-model="filterModel.value" :options="statuses" placeholder="Any" :showToggleAll="false">
                     <template #option="slotProps">
-                        <div class="flex align-items-center gap-2">
+                        <div class="flex align-items-center gap-2 filter-popup">
                             <p-tag :value="slotProps.option" :severity="getSeverity(slotProps.option)" />
                         </div>
                     </template>
@@ -60,16 +60,16 @@
                     <font-awesome-icon v-for="index in getRatingStars(data.rating)" :key="index" class="text-xl" icon="fa-solid fa-star" :color="getStarColor(data.rating)" />
                     <font-awesome-icon v-if="getRatingHalfStar(data.rating)" class="text-xl" icon="fa-solid fa-star-half-stroke" :color="getStarColor(data.rating)" />
                     <font-awesome-icon v-for="index in getRatingStars(String(10-Number(data.rating)))" :key="index" class="text-xl" icon="fa-regular fa-star" :color="getStarColor(data.rating)" />
-                    <!--
+                    
                     <p-tag :value="data.rating" :severity="getRatingColor(data.rating)"/>
-                    -->
+                    
                   </a>
                 </p-button>
             </template>
             <template #filter="{ filterModel }">
-                <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter">
+                <p-multiSelect v-model="filterModel.value" :options="ratings" placeholder="Any" class="p-column-filter filter-popup" :showToggleAll="false">
                     <template #option="slotProps">
-                        <div class="flex align-items-center gap-2">
+                        <div class="flex align-items-center gap-2 filter-popup">
                           <p-tag :value="slotProps.option" :severity="getRatingColor(slotProps.option)"/>
                         </div>
                     </template>
@@ -177,10 +177,13 @@
             return 'success';
           
           case 'Backlog':
-            return 'info';
+            return 'contrast';
           
           case 'In Progress':
-            return 'warning';
+            return 'warn';
+          
+          case '100%':
+            return 'info';
         }
       },
       getStarColor(rating) {
@@ -213,11 +216,11 @@
           
           case '10':
           case '9':
-            return 'success';
+            return 'info';
           
           case '8':
           case '7':  
-            return 'info';
+            return 'success';
           
           case '6':
           case '5':
@@ -347,10 +350,16 @@
   
 <style scoped>
   
-  .games {
-    display: grid;
-    height: -webkit-fill-available;
-    width: 100%;
+  .gamesTable {
+    font-family: Avenir, Helvetica, Arial, sans-serif !important;
+  }
+
+  .filter-popup {
+    font-family: Avenir, Helvetica, Arial, sans-serif !important;
+  }
+
+  .p-button-label {
+    font-family: Avenir, Helvetica, Arial, sans-serif !important;
   }
   
 </style>
