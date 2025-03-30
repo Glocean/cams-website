@@ -1,12 +1,12 @@
 <template>
     <div class="games">
         <div class="flex flex-column w-full justify-content-center align-items-center">
-            <div class="flex flex-row justify-content-center align-items-center mt-8">
-                <div class="flex flex-column justify-content-center align-items-center pr-8">
+            <div class="flex flex-row justify-content-center align-items-center mt-8 flex-wrap">
+                <div class="flex flex-column justify-content-center align-items-center pt-8 pr-8">
                         <p-chart type="pie" :data="setCompletionChartData()" :options="setCompletionChartOptions()" class="w-full md:w-30rem" />
                         <p-chart type="pie" :data="setRatingChartData()" :options="setRatingChartOptions()" class="w-full md:w-30rem" />
                 </div>
-                <div class="flex flex-column justify-content-center align-items-center w-full h-full">
+                <div class="flex flex-column justify-content-center align-items-center mt-8 pr-8">
                     <p-card class="shadow-8" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
                             <div class="flex flex-row justify-content-center align-items-center">
@@ -83,7 +83,7 @@
                         </template>
                     </p-card>
                 </div>
-                <div class="flex flex-column justify-content-center align-items-center w-full h-full pl-8">
+                <div class="flex flex-column justify-content-center align-items-center mt-8 pr-8">
                     <p-card class="shadow-8 w-30rem mb-5" style="background:rgba(0, 0, 0, 0.4);">
                         <template #content>
                             <div class="flex flex-row align-items-center justify-content-between">
