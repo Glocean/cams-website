@@ -58,6 +58,8 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import { faTimeline } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -77,6 +79,7 @@ library.add(faClock);
 library.add(faStar);
 library.add(faStarHalfStroke);
 library.add(faStarOutline);
+library.add(faTimeline);
 
 const app = createApp(App);
 app.use(PrimeVue, {

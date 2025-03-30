@@ -45,6 +45,11 @@ export default {
                         label: 'Stats',
                         icon: 'fa-solid fa-chart-simple',
                         route: '/games/stats'
+                    },
+                    {
+                        label: 'Timeline',
+                        icon: 'fa-solid fa-timeline',
+                        route: '/games/timeline'
                     }
                 ]
             },
