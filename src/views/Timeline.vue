@@ -1,9 +1,40 @@
 <template>
-    <div class="timeline">
-        Timeline
-        {{ gamesByDate[currentYear] }}
+  <div class="timeline">
+    <div class="flex flex-column w-full justify-content-center align-items-center">
+      <div class="flex flex-row justify-content-center align-items-center mt-8 flex-wrap">
+        <span class="flex text-4xl mb-3">Timeline</span>
+      </div>
     </div>
-  </template>
+    <p-timeline :value="gamesByDate[currentYear]" align="alternate" class="customized-timeline">
+      <template #marker="slotProps">
+        <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
+          <font-awesome-icon class="text-xl" icon="fa-solid fa-circle-dot"/>
+        </div>
+      </template>
+      <template #connector="slotProps">
+      </template>
+      <template #opposite="slotProps">
+        <div style="height: 100%;display: grid; align-items: center;">
+          <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+            <template #title>
+              {{ slotProps.item.title }}
+            </template>
+            <template #subtitle>
+              {{ slotProps.item.date }}
+            </template>
+          </p-card>
+        </div>
+      </template>
+      <template #content="slotProps">
+        <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+          <template #content>
+            <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
+          </template>
+        </p-card>
+      </template>
+    </p-timeline>
+  </div>
+</template>
   
   <script>
   import axios from "axios";
@@ -119,12 +150,5 @@
   </script>
   
   <style scoped>
-  
-  .timeline {
-    display: grid;
-    height: -webkit-fill-available;
-    width: 100%;
-    place-items: center;
-  }
   
   </style>
