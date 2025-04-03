@@ -5,16 +5,16 @@
         <span class="flex text-4xl mb-3">Timeline</span>
       </div>
     </div>
-    <p-timeline :value="gamesByDate[currentYear]" align="alternate" class="customized-timeline">
+    <p-timeline :value="gamesByDate[currentYear]" align="alternate" class="customized-timeline pb-5">
       <template #marker="slotProps">
         <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
-          <font-awesome-icon class="text-xl" icon="fa-solid fa-circle-dot"/>
+          <font-awesome-icon v-if=slotProps.item.title class="text-xl" icon="fa-solid fa-circle-dot"/>
         </div>
       </template>
       <template #connector="slotProps">
       </template>
       <template #opposite="slotProps">
-        <div style="height: 100%;display: grid; align-items: center;">
+        <div v-if=slotProps.item.title style="height: 100%;display: grid; align-items: center;">
           <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
             <template #title>
               {{ slotProps.item.title }}
@@ -26,7 +26,7 @@
         </div>
       </template>
       <template #content="slotProps">
-        <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+        <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
           <template #content>
             <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
           </template>
@@ -99,6 +99,8 @@
         });
         this.gamesByDate['2024'] = this.gamesByDate['2024'].sort( this.compareDates );
         this.gamesByDate['2025'] = this.gamesByDate['2025'].sort( this.compareDates );
+        this.gamesByDate['2024'].push({});
+        this.gamesByDate['2025'].push({});
       },
       formatTags(value) {
          return value.split(",");
