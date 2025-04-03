@@ -1,6 +1,7 @@
 <template>
     <div class="timeline">
-        Tineline
+        Timeline
+        {{ gamesByDate[currentYear] }}
     </div>
   </template>
   
@@ -20,7 +21,12 @@
         statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
         ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],
         loading: true,
-        expandedRows: []
+        expandedRows: [],
+        gamesByDate: {
+          '2025': [],
+          '2024': [],
+        },
+        currentYear: '2025',
       };
     },
     created() {
@@ -47,12 +53,21 @@
         }, []);
         this.loading = false;
         this.games.forEach((item) => {
+          if(item.date){
+            if(item.date.includes('2024')){
+              this.gamesByDate['2024'].push(item);
+            }else if(item.date.includes('2025')){
+              this.gamesByDate['2025'].push(item);
+            }
+          }
           if (item.completion == "In Progress") {
             this.currentlyPlaying.push(item)
           }else if (item.completion == "Backlog") {
             this.backlog.push(item)
           }
         });
+        this.gamesByDate['2024'] = this.gamesByDate['2024'].sort( this.compareDates );
+        this.gamesByDate['2025'] = this.gamesByDate['2025'].sort( this.compareDates );
       },
       formatTags(value) {
          return value.split(",");
@@ -84,6 +99,17 @@
         var id = data.steamId;
         var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
         return banner;
+      },
+      compareDates( a, b ) {
+        const firstDate = new Date(a.date);
+        const secondDate = new Date(b.date)
+        if ( firstDate < secondDate ){
+          return -1;
+        }
+        if ( firstDate > secondDate ){
+          return 1;
+        }
+        return 0;
       }
     },
     beforeMount() {
