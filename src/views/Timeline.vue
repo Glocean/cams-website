@@ -1,38 +1,44 @@
 <template>
-  <div class="timeline">
+  <div class="timeline pb-5">
     <div class="flex flex-column w-full justify-content-center align-items-center">
-      <div class="flex flex-row justify-content-center align-items-center mt-8 flex-wrap">
-        <span class="flex text-4xl mb-3">Timeline</span>
+      <div class="flex flex-row align-items-center mt-8" style="width: 70%;">
       </div>
     </div>
-    <p-timeline :value="gamesByDate[currentYear]" align="alternate" class="customized-timeline pb-5">
-      <template #marker="slotProps">
-        <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
-          <font-awesome-icon v-if=slotProps.item.title class="text-xl" icon="fa-solid fa-circle-dot"/>
+    <div v-for="month in months">
+      <div v-if="gamesByDate[currentYear][month].length > 1" class="flex flex-column w-full justify-content-center align-items-center">
+        <div class="flex flex-row align-items-center">
+          <span class="flex text-6xl mb-3">{{ month }}</span>
         </div>
-      </template>
-      <template #connector="slotProps">
-      </template>
-      <template #opposite="slotProps">
-        <div v-if=slotProps.item.title style="height: 100%;display: grid; align-items: center;">
-          <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
-            <template #title>
-              {{ slotProps.item.title }}
-            </template>
-            <template #subtitle>
-              {{ slotProps.item.date }}
+      </div>
+      <p-timeline :value="gamesByDate[currentYear][month]" align="alternate" class="customized-timeline">
+        <template #marker="slotProps">
+          <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
+            <font-awesome-icon v-if=slotProps.item.title class="text-xl" icon="fa-solid fa-circle-dot"/>
+          </div>
+        </template>
+        <template #connector="slotProps">
+        </template>
+        <template #opposite="slotProps">
+          <div v-if=slotProps.item.title style="height: 100%;display: grid; align-items: center;">
+            <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+              <template #title>
+                {{ slotProps.item.title }}
+              </template>
+              <template #subtitle>
+                {{ slotProps.item.date }}
+              </template>
+            </p-card>
+          </div>
+        </template>
+        <template #content="slotProps">
+          <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+            <template #content>
+              <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
             </template>
           </p-card>
-        </div>
-      </template>
-      <template #content="slotProps">
-        <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
-          <template #content>
-            <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
-          </template>
-        </p-card>
-      </template>
-    </p-timeline>
+        </template>
+      </p-timeline>
+    </div>
   </div>
 </template>
   
@@ -54,10 +60,41 @@
         loading: true,
         expandedRows: [],
         gamesByDate: {
-          '2025': [],
-          '2024': [],
+          '2025': {
+            'January': [],
+            'February': [],
+            'March': [],
+            'April': [],
+            'May': [],
+            'June': [],
+            'July': [],
+            'August': [],
+            'September': [],
+            'October': [],
+            'November': [],
+            'December': [],
+          },
+          '2024': {
+            'January': [],
+            'February': [],
+            'March': [],
+            'April': [],
+            'May': [],
+            'June': [],
+            'July': [],
+            'August': [],
+            'September': [],
+            'October': [],
+            'November': [],
+            'December': [],
+          },
         },
-        currentYear: '2025',
+        years: [
+          '2024',
+          '2025'
+        ],
+        currentYear: '2024',
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       };
     },
     created() {
@@ -85,11 +122,35 @@
         this.loading = false;
         this.games.forEach((item) => {
           if(item.date){
-            if(item.date.includes('2024')){
-              this.gamesByDate['2024'].push(item);
-            }else if(item.date.includes('2025')){
-              this.gamesByDate['2025'].push(item);
-            }
+            this.years.forEach((year) => {
+              if(item.date.includes(year)){                      
+                if(item.date.includes('-01-')){
+                  this.gamesByDate[year]['January'].push(item);
+                }else if(item.date.includes('-02-')){
+                  this.gamesByDate[year]['February'].push(item);
+                }else if(item.date.includes('-03-')){
+                  this.gamesByDate[year]['March'].push(item);
+                }else if(item.date.includes('-04-')){
+                  this.gamesByDate[year]['April'].push(item);
+                }else if(item.date.includes('-05-')){
+                  this.gamesByDate[year]['May'].push(item);
+                }else if(item.date.includes('-06-')){
+                  this.gamesByDate[year]['June'].push(item);
+                }else if(item.date.includes('-07-')){
+                  this.gamesByDate[year]['July'].push(item);
+                }else if(item.date.includes('-08-')){
+                  this.gamesByDate[year]['August'].push(item);
+                }else if(item.date.includes('-09-')){
+                  this.gamesByDate[year]['September'].push(item);
+                }else if(item.date.includes('-10-')){
+                  this.gamesByDate[year]['October'].push(item);
+                }else if(item.date.includes('-11-')){
+                  this.gamesByDate[year]['November'].push(item);
+                }else if(item.date.includes('-12-')){
+                  this.gamesByDate[year]['December'].push(item);
+                }
+              }
+            })
           }
           if (item.completion == "In Progress") {
             this.currentlyPlaying.push(item)
@@ -97,10 +158,22 @@
             this.backlog.push(item)
           }
         });
-        this.gamesByDate['2024'] = this.gamesByDate['2024'].sort( this.compareDates );
-        this.gamesByDate['2025'] = this.gamesByDate['2025'].sort( this.compareDates );
-        this.gamesByDate['2024'].push({});
-        this.gamesByDate['2025'].push({});
+        var swap = false;
+        var tmpCount = 0;
+        this.years.forEach((year) => {
+          this.months.forEach((month) => {
+            tmpCount = tmpCount + this.gamesByDate[year][month].length;
+            this.gamesByDate[year][month] = this.gamesByDate[year][month].sort( this.compareDates );
+            this.gamesByDate[year][month].push({});
+            if(swap){
+              this.gamesByDate[year][month].unshift({});
+            }
+            swap = false;
+            if(tmpCount % 2 == 1){
+              swap = true;
+            }
+          })
+        })
       },
       formatTags(value) {
          return value.split(",");
