@@ -8,46 +8,48 @@
         <p-divider class="my-divider w-10 py-5"/>
       </div>
     </div>
-    <div v-if="!loading" v-for="month in months" class="game-timeline fadein animation-ease-in animation-duration-1000">
-      <div v-if="gamesByDate[currentYear][month].length > 1" class="flex flex-column w-full justify-content-center align-items-center">
-        <div class="flex flex-row align-items-center">
-          <span class="flex text-6xl mb-3">{{ month }}</span>
-        </div>
-      </div>
-      <p-timeline :value="gamesByDate[currentYear][month]" align="alternate" class="customized-timeline">
-        <template #marker="slotProps">
-          <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
-            <font-awesome-icon v-if=slotProps.item.title class="text-xl" icon="fa-solid fa-circle-dot"/>
+    <div :key="componentKey">
+      <div v-if="!loading" v-for="month in months" class="game-timeline fadein animation-ease-in animation-duration-1000">
+        <div v-if="gamesByDate[currentYear][month].length > 1" class="flex flex-column w-full justify-content-center align-items-center">
+          <div class="flex flex-row align-items-center">
+            <span class="flex text-7xl mb-3 mt-2">{{ month }}</span>
           </div>
-        </template>
-        <template #connector="slotProps">
-        </template>
-        <template #opposite="slotProps">
-          <div v-if=slotProps.item.title style="height: 100%;display: grid; align-items: center;">
-            <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
-              <template #title>
-                {{ slotProps.item.title }}
-              </template>
-              <template #subtitle>
-                {{ slotProps.item.date }}
+        </div>
+        <p-timeline :value="gamesByDate[currentYear][month]" align="alternate" class="customized-timeline">
+          <template #marker="slotProps">
+            <div class="flex flex-row justify-content-center align-items-center absolute" style="height: 100%;">
+              <font-awesome-icon v-if=slotProps.item.title class="text-xl" icon="fa-solid fa-circle-dot"/>
+            </div>
+          </template>
+          <template #connector="slotProps">
+          </template>
+          <template #opposite="slotProps">
+            <div v-if=slotProps.item.title style="height: 100%;display: grid; align-items: center;">
+              <p-card style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+                <template #title>
+                  {{ slotProps.item.title }}
+                </template>
+                <template #subtitle>
+                  {{ slotProps.item.date }}
+                </template>
+              </p-card>
+            </div>
+          </template>
+          <template #content="slotProps">
+            <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
+              <template #content>
+                <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
               </template>
             </p-card>
-          </div>
-        </template>
-        <template #content="slotProps">
-          <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
-            <template #content>
-              <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
-            </template>
-          </p-card>
-        </template>
-      </p-timeline>
+          </template>
+        </p-timeline>
+      </div>
     </div>
   </div>
   <p-speedDial class="p-5" :model="yearOptions" direction="up" :style="{ position: 'fixed', left: 0, bottom: 0 }" :buttonProps="{ severity: 'primary', rounded: true }" :tooltipOptions="{ position: 'right' }">
       <template #item="{ item, toggleCallback }">
         <div class="flex flex-col items-center justify-between gap-2 p-2 border rounded border-surface-200 dark:border-surface-700 w-20 cursor-pointer" @click="toggleCallback">
-          <span v-styleclass="{ selector: '.game-timeline', leaveActiveClass: 'my-fadeout', leaveToClass: 'my-hidden' }">{{ item.label }}</span>
+          <span>{{ item.label }}</span>
         </div>
       </template>
     </p-speedDial>
@@ -62,6 +64,7 @@
     },
     data() {
       return {
+        componentKey: 0,
         games: null,
         currentlyPlaying: [],
         backlog: [],
@@ -110,6 +113,7 @@
             command: () => {
               this.currentYear = '2024';
               window.scrollTo(0, 0);
+              this.forceRenderer();
             }
           },
           {
@@ -117,6 +121,7 @@
             command: () => {
               this.currentYear = '2025';
               window.scrollTo(0, 0);
+              this.forceRenderer();
             }
           }
         ],
@@ -186,16 +191,21 @@
         });
         var swap = false;
         var tmpCount = 0;
+        var totalCount = 0;
         this.years.forEach((year) => {
           this.months.forEach((month) => {
-            tmpCount = tmpCount + this.gamesByDate[year][month].length;
+            tmpCount = this.gamesByDate[year][month].length;
+            if(tmpCount == 0){
+              return
+            }
+            totalCount = tmpCount + totalCount;
             this.gamesByDate[year][month] = this.gamesByDate[year][month].sort( this.compareDates );
             this.gamesByDate[year][month].push({});
             if(swap){
               this.gamesByDate[year][month].unshift({});
             }
             swap = false;
-            if(tmpCount % 2 == 1){
+            if(totalCount % 2 == 1){
               swap = true;
             }
           })
@@ -243,6 +253,9 @@
           return 1;
         }
         return 0;
+      },
+      forceRenderer() {
+        this.componentKey += 1;
       }
     },
     beforeMount() {
