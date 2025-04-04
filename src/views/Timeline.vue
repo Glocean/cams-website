@@ -1,10 +1,14 @@
 <template>
-  <div class="timeline pb-5">
+  <div class="timeline py-5">
     <div class="flex flex-column w-full justify-content-center align-items-center">
-      <div class="flex flex-row align-items-center mt-8" style="width: 70%;">
+      <div class="flex flex-row align-items-center mt-8">
+        <span class="text-8xl"> {{ currentYear }}</span>
+      </div>
+      <div class="flex flex-row justify-content-center align-items-center" style="width: 30%;">
+        <p-divider class="my-divider w-10 py-5"/>
       </div>
     </div>
-    <div v-for="month in months">
+    <div v-if="!loading" v-for="month in months" class="game-timeline fadein animation-ease-in animation-duration-1000">
       <div v-if="gamesByDate[currentYear][month].length > 1" class="flex flex-column w-full justify-content-center align-items-center">
         <div class="flex flex-row align-items-center">
           <span class="flex text-6xl mb-3">{{ month }}</span>
@@ -40,6 +44,13 @@
       </p-timeline>
     </div>
   </div>
+  <p-speedDial class="p-5" :model="yearOptions" direction="up" :style="{ position: 'fixed', left: 0, bottom: 0 }" :buttonProps="{ severity: 'primary', rounded: true }" :tooltipOptions="{ position: 'right' }">
+      <template #item="{ item, toggleCallback }">
+        <div class="flex flex-col items-center justify-between gap-2 p-2 border rounded border-surface-200 dark:border-surface-700 w-20 cursor-pointer" @click="toggleCallback">
+          <span v-styleclass="{ selector: '.game-timeline', leaveActiveClass: 'my-fadeout', leaveToClass: 'my-hidden' }">{{ item.label }}</span>
+        </div>
+      </template>
+    </p-speedDial>
 </template>
   
   <script>
@@ -93,6 +104,22 @@
           '2024',
           '2025'
         ],
+        yearOptions: [
+          {
+            label: '2024',
+            command: () => {
+              this.currentYear = '2024';
+              window.scrollTo(0, 0);
+            }
+          },
+          {
+            label: '2025',
+            command: () => {
+              this.currentYear = '2025';
+              window.scrollTo(0, 0);
+            }
+          }
+        ],
         currentYear: '2024',
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       };
@@ -119,7 +146,6 @@
           acc[i] = test;
           return acc;
         }, []);
-        this.loading = false;
         this.games.forEach((item) => {
           if(item.date){
             this.years.forEach((year) => {
@@ -174,6 +200,7 @@
             }
           })
         })
+        this.loading = false;
       },
       formatTags(value) {
          return value.split(",");
@@ -225,5 +252,10 @@
   </script>
   
   <style scoped>
-  
+
+  .p-divider.p-divider-horizontal:before {
+      border-top: 1px #ffffff;
+      border-top-style: solid;
+  }
+
   </style>
