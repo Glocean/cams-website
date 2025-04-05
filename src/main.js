@@ -39,7 +39,7 @@ import Dialog from 'primevue/dialog';
 import Timeline from 'primevue/timeline';
 import AnimateOnScroll from 'primevue/animateonscroll';
 import SpeedDial from 'primevue/speeddial';
-
+import ScrollTop from 'primevue/scrolltop';
 
 
 // Font Awesome icons
@@ -131,5 +131,6 @@ app.component('p-dialog', Dialog);
 app.component('p-timeline', Timeline);
 app.directive('animateonscroll', AnimateOnScroll);
 app.component('p-speedDial', SpeedDial);
+app.component('p-scrollTop', ScrollTop);
 
 app.mount("#app");

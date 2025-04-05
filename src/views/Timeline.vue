@@ -47,15 +47,18 @@
     </div>
   </div>
   <p-speedDial class="p-5" :model="yearOptions" direction="up" :style="{ position: 'fixed', left: 0, bottom: 0 }" :buttonProps="{ severity: 'primary', rounded: true }" :tooltipOptions="{ position: 'right' }">
-      <template #item="{ item, toggleCallback }">
-        <div class="flex flex-col items-center justify-between gap-2 p-2 border rounded border-surface-200 dark:border-surface-700 w-20 cursor-pointer" @click="toggleCallback">
-          <span>{{ item.label }}</span>
-        </div>
-      </template>
-    </p-speedDial>
+    <template #item="{ item, toggleCallback }">
+      <div class="flex flex-col items-center justify-between gap-2 p-2 border rounded border-surface-200 dark:border-surface-700 w-20 cursor-pointer" @click="toggleCallback">
+        <span>{{ item.label }}</span>
+      </div>
+    </template>
+  </p-speedDial>
+  <p-scrollTop />
 </template>
   
   <script>
+  // TODO: Create Played this year widget
+  // TODO: Make images links/add more details (playtime) to timeline
   import axios from "axios";
   
   export default {
@@ -125,7 +128,7 @@
             }
           }
         ],
-        currentYear: '2024',
+        currentYear: '2025',
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       };
     },
