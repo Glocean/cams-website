@@ -1,5 +1,5 @@
 <template>
-  <Navbar/>
+  <Navbar style="width: 100% !important; position: fixed; z-index: 2;"/>
   <video autoplay muted loop id="myVideo" class="fadein animation-duration-500">
     <source src="/Underwater_Garden.mp4" type="video/mp4">
   </video>

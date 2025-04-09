@@ -36,7 +36,11 @@ import Carousel from 'primevue/carousel';
 import Galleria from 'primevue/galleria';
 import Chart from 'primevue/chart';
 import Dialog from 'primevue/dialog';
-//import ToggleSwitch from 'primevue/toggleswitch';
+import Timeline from 'primevue/timeline';
+import AnimateOnScroll from 'primevue/animateonscroll';
+import SpeedDial from 'primevue/speeddial';
+import ScrollTop from 'primevue/scrolltop';
+
 
 // Font Awesome icons
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -58,6 +62,9 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import { faTimeline } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(faPhone);
 library.add(faLetterboxd);
@@ -77,6 +84,8 @@ library.add(faClock);
 library.add(faStar);
 library.add(faStarHalfStroke);
 library.add(faStarOutline);
+library.add(faTimeline);
+library.add(faCircleDot);
 
 const app = createApp(App);
 app.use(PrimeVue, {
@@ -119,6 +128,9 @@ app.component('p-carousel', Carousel);
 app.component('p-galleria', Galleria);
 app.component('p-chart', Chart);
 app.component('p-dialog', Dialog);
-//app.component('p-toggleSwitch', ToggleSwitch);
+app.component('p-timeline', Timeline);
+app.directive('animateonscroll', AnimateOnScroll);
+app.component('p-speedDial', SpeedDial);
+app.component('p-scrollTop', ScrollTop);
 
 app.mount("#app");

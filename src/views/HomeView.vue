@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <div class="flex flex-column align-items-center fadein animation-ease-in animation-duration-1000">  
-      <div class="flex flex-row align-items-center flex-wrap m-2">
-        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/cam_vic.jpg"/>
+    <div class="flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">  
+      <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
+        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/moco.jpg"/>
         <div class="flex flex-column m-8">
-          <div class="flex flex-row align-items-center name">Cameron Dahr</div>
+          <div class="flex flex-row align-items-center justify-content-center name">Cameron Dahr</div>
           <div class="flex flex-row align-items-center justify-content-center m-3">
             <p-divider class="my-divider w-10"/>
           </div>
