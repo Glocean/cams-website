@@ -107,9 +107,15 @@ export default {
       }
     },
     getIconUrl(data) {
-      var id = data.steamId;
-      var hash = data.steamIcon;
-      var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+      var icon;
+      if(data.steamIcon != ""){
+        var id = data.steamId;
+        var hash = data.steamIcon;
+        icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+      }else{
+        var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+        icon = "/game_assets/icons/"+title+"_icon.png";
+      }
       return icon;
     },
     getBannerUrl(data) {
