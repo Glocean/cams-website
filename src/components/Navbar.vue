@@ -62,10 +62,6 @@ export default {
                         icon: 'fa-solid fa-envelope',
                     },
                 ]
-            },
-            {
-                label: 'CONTACT',
-                icon: 'fa-solid fa-phone'
             }
         ]
     }

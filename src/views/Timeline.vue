@@ -38,7 +38,9 @@
           <template #content="slotProps">
             <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
               <template #content>
-                <img v-if="slotProps.item.steamId" :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
+                <a v-if="slotProps.item.steamId" :href="getSteamPageUrl(slotProps.item)" target="_blank">
+                  <img :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
+                </a>
               </template>
             </p-card>
           </template>
@@ -245,6 +247,12 @@
         var id = data.steamId;
         var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
         return banner;
+      },
+      getSteamPageUrl(data) {
+        var id = data.steamId;
+        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+        var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+        return steamPage;
       },
       compareDates( a, b ) {
         const firstDate = new Date(a.date);
