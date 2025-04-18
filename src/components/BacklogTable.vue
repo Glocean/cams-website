@@ -46,7 +46,7 @@
     methods: {
       getBannerUrl(data) {
         var banner;
-        if(data.steamId != ""){
+        if(data.steamId != null && data.steamId != ""){
           var id = data.steamId;
           banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
         }else{
@@ -57,7 +57,7 @@
       },
       getGamePageUrl(data) {
         var gamePage;
-        if(data.steamId != ""){
+        if(data.steamId != null && data.steamId != ""){
           var id = data.steamId;
           var title = data.title.replace(/ /g,"_").replace(/'/g, '');
           gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";

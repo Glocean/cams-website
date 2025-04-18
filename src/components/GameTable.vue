@@ -98,7 +98,7 @@
                   <div v-if="!slotProps.data.date" class="font-medium text-secondary text-sm mt-2">
                     <span><i>DNF</i></span>
                   </div>
-                  <div class="mt-3">
+                  <div v-if="slotProps.data.genre" class="mt-3">
                     <p-tag v-for="item in formatTags(slotProps.data.genre)" :value=item severity="secondary" v-bind:key="item" class="mr-2"/>
                   </div>
                   <div v-if="slotProps.data.notes" class="font-medium text-secondary text-sm mt-3">
@@ -305,7 +305,7 @@
       },
       getIconUrl(data) {
         var icon;
-        if(data.steamIcon != ""){
+        if(data.steamIcon != null && data.steamIcon != ""){
           var id = data.steamId;
           var hash = data.steamIcon;
           icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
@@ -317,7 +317,7 @@
       },
       getBannerUrl(data) {
         var banner;
-        if(data.steamId != ""){
+        if(data.steamId != null && data.steamId != ""){
           var id = data.steamId;
           banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
         }else{

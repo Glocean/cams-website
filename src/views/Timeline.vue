@@ -38,7 +38,7 @@
           <template #content="slotProps">
             <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
               <template #content>
-                <a v-if="slotProps.item.steamId" :href="getSteamPageUrl(slotProps.item)" target="_blank">
+                <a :href="getGamePageUrl(slotProps.item)" target="_blank">
                   <img :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
                 </a>
               </template>
@@ -250,15 +250,27 @@
         return icon;
       },
       getBannerUrl(data) {
-        var id = data.steamId;
-        var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        var banner;
+        if(data.steamId != ""){
+          var id = data.steamId;
+          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          banner = "/game_assets/banners/"+title+"_banner.png";
+        }
         return banner;
       },
-      getSteamPageUrl(data) {
-        var id = data.steamId;
-        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
-        var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
-        return steamPage;
+      getGamePageUrl(data) {
+        var gamePage;
+        if(data.steamId != ""){
+          var id = data.steamId;
+          var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+          gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"-").replace(/'/g, '');
+          gamePage = "https://store.epicgames.com/en-US/p/"+title;
+        }
+        return gamePage;
       },
       compareDates( a, b ) {
         const firstDate = new Date(a.date);
