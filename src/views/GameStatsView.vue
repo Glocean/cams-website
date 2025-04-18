@@ -30,7 +30,7 @@
                     </p-card>
                     <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.4);">
                         <template #header>
-                            <p-image :src="getBannerUrl(topPlayedGame)"></p-image>
+                            <p-image :src="getBannerUrl(topPlayedGame)" width="460"></p-image>
                         </template>
                         <template #title>
                             <span class="flex text-4xl">
@@ -41,8 +41,8 @@
                             <div class="flex flex-row justify-content-start align-items-center">
                                 <div class="flex flex-row justify-content-center align-items-center">
                                     <div class="flex flex-column justify-content-center align-items-center mr-3">
-                                        <div v-if="topPlayedGame.icon" class="mr-0">
-                                            <p-image :src="getIconUrl(topPlayedGame)"></p-image>
+                                        <div class="mr-0">
+                                            <p-image :src="getIconUrl(topPlayedGame)" width="32"></p-image>
                                         </div>
                                     </div>
                                     <div class="flex flex-column justify-content-center">
@@ -62,8 +62,8 @@
                             <div v-for="item, index in topTenPlaytime" v-bind:key="item.title" class="flex flex-row justify-content-start align-items-center mt-3" >
                                 <div class="flex flex-row justify-content-center align-items-center">
                                     <div class="flex flex-column justify-content-center align-items-center mr-3">
-                                        <div v-if="item.icon" class="mr-0">
-                                            <p-image :src="getIconUrl(item)"></p-image>
+                                        <div class="mr-0">
+                                            <p-image :src="getIconUrl(item)" width="32"></p-image>
                                         </div>
                                     </div>
                                     <div class="flex flex-column justify-content-center">
@@ -201,6 +201,7 @@ export default {
             this.currentGenre = "All";
             this.genreRatings["All"] = [0,0,0,0,0,0,0,0,0,0];
             this.topFiveGenres = [];
+            this.topPlayedGame = {};
             this.loading = true;
             this.games = null;
             var totalGamesWithGenre = 0;
@@ -209,7 +210,7 @@ export default {
             const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
             const { data } = await axios.get(request);
             var input = data.values
-            const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
+            const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
             this.games = input.reduce(function(acc, cur, i) {
                 var test = cur.reduce(function(acc, cur, i) {
                 acc[keys[i]] = cur;
@@ -271,10 +272,11 @@ export default {
             //this.topFiveGenres = sortedScores.slice(0, 5);
             
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
-            this.topPlayedGame = this.topTenPlaytime[4];
-            
-            this.topTenPlaytime.splice(4, 1);
+
             this.topTenPlaytime.sort((a,b) => Number(b.hours) - Number(a.hours));
+            console.log(this.topTenPlaytime);
+            this.topPlayedGame = this.topTenPlaytime[0];
+            this.topTenPlaytime.shift();
             
             var sortable = Object.entries(this.genres)
                 .sort(([,a],[,b]) => b-a)
@@ -537,14 +539,26 @@ export default {
             }
         }, 
         getIconUrl(data) {
-            var id = data.steamId;
-            var hash = data.icon;
-            var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+            var icon;
+            if(data.steamId != null && data.steamId != ""){
+                var id = data.steamId;
+                var hash = data.steamIcon;
+                icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+            }else{
+                var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+                icon = "/game_assets/icons/"+title+"_icon.png";
+            }
             return icon;
         },
         getBannerUrl(data) {
-            var id = data.steamId;
-            var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+            var banner;
+            if(data.steamId != null && data.steamId != ""){
+                var id = data.steamId;
+                banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+            }else{
+                var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+                banner = "/game_assets/banners/"+title+"_banner.png";
+            }
             return banner;
         },
         formatTags(value) {

@@ -25,8 +25,8 @@
         <p-column field="title" header="Title" sortable style="min-width: 18rem">
             <template #body="{ data }">
                 <div class="flex flex-row align-items-center">
-                    <div v-if="data.icon" class="mr-3">
-                        <p-image :src="getIconUrl(data)"></p-image>
+                    <div class="mr-3">
+                        <p-image :src="getIconUrl(data)" width="32"></p-image>
                     </div>
                     <div>
                         {{ data.title }}
@@ -78,8 +78,8 @@
         </p-column>
         <template #expansion="slotProps">
             <div class="flex flex-row p-3">
-                <div v-if="slotProps.data.steamId">
-                    <p-image :src="getBannerUrl(slotProps.data)"></p-image>
+                <div>
+                    <p-image :src="getBannerUrl(slotProps.data)" width="460"></p-image>
                 </div>
                 <div class="flex flex-column align-content-center pl-5 pr-5 w-full h-full">
                   <div class="flex flex-row justify-content-between align-items-center text-xl font-medium text-900 w-full">
@@ -98,7 +98,7 @@
                   <div v-if="!slotProps.data.date" class="font-medium text-secondary text-sm mt-2">
                     <span><i>DNF</i></span>
                   </div>
-                  <div class="mt-3">
+                  <div v-if="slotProps.data.genre" class="mt-3">
                     <p-tag v-for="item in formatTags(slotProps.data.genre)" :value=item severity="secondary" v-bind:key="item" class="mr-2"/>
                   </div>
                   <div v-if="slotProps.data.notes" class="font-medium text-secondary text-sm mt-3">
@@ -115,7 +115,7 @@
               <template #header>
                 <div class="inline-flex align-items-center justify-content-center gap-2">
                   <div v-if="reviewIcon" class="mr-3">
-                    <p-image :src="getIconUrl(reviewIcon)"></p-image>
+                    <p-image :src="getIconUrl(reviewIcon)" width="32"></p-image>
                   </div>
                   <span class="text-xl">
                       {{ reviewTitle }}
@@ -304,14 +304,26 @@
         }
       },
       getIconUrl(data) {
-        var id = data.steamId;
-        var hash = data.icon;
-        var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+        var icon;
+        if(data.steamIcon != null && data.steamIcon != ""){
+          var id = data.steamId;
+          var hash = data.steamIcon;
+          icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          icon = "/game_assets/icons/"+title+"_icon.png";
+        }
         return icon;
       },
       getBannerUrl(data) {
-        var id = data.steamId;
-        var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        var banner;
+        if(data.steamId != null && data.steamId != ""){
+          var id = data.steamId;
+          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          banner = "/game_assets/banners/"+title+"_banner.png";
+        }
         return banner;
       },
       refresh() {
@@ -339,7 +351,6 @@
         this.review = gameData.notes;
         this.reviewTitle = gameData.title;
         this.reviewIcon = gameData;
-        //console.log(gameData);
         if(gameData.title != ""){
           this.showReviewDialogVal = true;
         }

@@ -57,7 +57,7 @@ export default {
       const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
       const { data } = await axios.get(request);
       var input = data.values
-      const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
+      const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
       this.games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
           acc[keys[i]] = cur;
@@ -107,9 +107,15 @@ export default {
       }
     },
     getIconUrl(data) {
-      var id = data.steamId;
-      var hash = data.icon;
-      var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+      var icon;
+      if(data.steamIcon != ""){
+        var id = data.steamId;
+        var hash = data.steamIcon;
+        icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+      }else{
+        var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+        icon = "/game_assets/icons/"+title+"_icon.png";
+      }
       return icon;
     },
     getBannerUrl(data) {

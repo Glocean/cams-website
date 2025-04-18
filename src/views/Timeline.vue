@@ -38,7 +38,7 @@
           <template #content="slotProps">
             <p-card v-if=slotProps.item.title style="background:rgba(0, 0, 0, 0); box-shadow: none;">
               <template #content>
-                <a v-if="slotProps.item.steamId" :href="getSteamPageUrl(slotProps.item)" target="_blank">
+                <a :href="getGamePageUrl(slotProps.item)" target="_blank">
                   <img :src="getBannerUrl(slotProps.item)" :alt="slotProps.item.title" width="600" class="shadow-sm" />
                 </a>
               </template>
@@ -147,7 +147,7 @@
         const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
         const { data } = await axios.get(request);
         var input = data.values
-        const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "icon", "notes"];
+        const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
         this.games = input.reduce(function(acc, cur, i) {
           var test = cur.reduce(function(acc, cur, i) {
             acc[keys[i]] = cur;
@@ -238,21 +238,39 @@
         }
       },
       getIconUrl(data) {
-        var id = data.steamId;
-        var hash = data.icon;
-        var icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+        var icon;
+        if(data.steamId != null && data.steamId != ""){
+          var id = data.steamId;
+          var hash = data.steamIcon;
+          icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          icon = "/game_assets/icons/"+title+"_icon.png";
+        }
         return icon;
       },
       getBannerUrl(data) {
-        var id = data.steamId;
-        var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        var banner;
+        if(data.steamId != null && data.steamId != ""){
+          var id = data.steamId;
+          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          banner = "/game_assets/banners/"+title+"_banner.png";
+        }
         return banner;
       },
-      getSteamPageUrl(data) {
-        var id = data.steamId;
-        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
-        var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
-        return steamPage;
+      getGamePageUrl(data) {
+        var gamePage;
+        if(data.steamId != null && data.steamId != ""){
+          var id = data.steamId;
+          var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+          gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"-").replace(/'/g, '');
+          gamePage = "https://store.epicgames.com/en-US/p/"+title;
+        }
+        return gamePage;
       },
       compareDates( a, b ) {
         const firstDate = new Date(a.date);
