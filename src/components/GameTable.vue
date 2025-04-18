@@ -78,8 +78,8 @@
         </p-column>
         <template #expansion="slotProps">
             <div class="flex flex-row p-3">
-                <div v-if="slotProps.data.steamId">
-                    <p-image :src="getBannerUrl(slotProps.data)"></p-image>
+                <div>
+                    <p-image :src="getBannerUrl(slotProps.data)" width="460"></p-image>
                 </div>
                 <div class="flex flex-column align-content-center pl-5 pr-5 w-full h-full">
                   <div class="flex flex-row justify-content-between align-items-center text-xl font-medium text-900 w-full">
@@ -316,8 +316,14 @@
         return icon;
       },
       getBannerUrl(data) {
-        var id = data.steamId;
-        var banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        var banner;
+        if(data.steamId != ""){
+          var id = data.steamId;
+          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        }else{
+          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+          banner = "/game_assets/banners/"+title+"_banner.png";
+        }
         return banner;
       },
       refresh() {
