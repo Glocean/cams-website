@@ -61,6 +61,7 @@
   <script>
   // TODO: Create Played this year widget
   // TODO: Make images links/add more details (playtime) to timeline
+  // TODO: Add little icon/banner that shows 100% completion
   import axios from "axios";
   
   export default {

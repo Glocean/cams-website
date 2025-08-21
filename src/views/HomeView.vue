@@ -11,7 +11,7 @@
           <div class="flex flex-row align-items-center justify-content-around flex-wrap">
             <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
               <template #icon>
-                <a href="https://github.com/C-Dahr" target="_blank">
+                <a href="https://github.com/Glocean" target="_blank">
                   <font-awesome-icon class="text-3xl" icon="fa-brands fa-github" color="white" />
                 </a>
               </template>
