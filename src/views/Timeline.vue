@@ -80,6 +80,20 @@
         loading: true,
         expandedRows: [],
         gamesByDate: {
+          '2026': {
+            'January': [],
+            'February': [],
+            'March': [],
+            'April': [],
+            'May': [],
+            'June': [],
+            'July': [],
+            'August': [],
+            'September': [],
+            'October': [],
+            'November': [],
+            'December': [],
+          },
           '2025': {
             'January': [],
             'February': [],
@@ -108,12 +122,36 @@
             'November': [],
             'December': [],
           },
+          '2023': {
+            'January': [],
+            'February': [],
+            'March': [],
+            'April': [],
+            'May': [],
+            'June': [],
+            'July': [],
+            'August': [],
+            'September': [],
+            'October': [],
+            'November': [],
+            'December': [],
+          },
         },
         years: [
+          '2023',
           '2024',
-          '2025'
+          '2025',
+          '2026'
         ],
         yearOptions: [
+          {
+            label: '2023',
+            command: () => {
+              this.currentYear = '2023';
+              window.scrollTo(0, 0);
+              this.forceRenderer();
+            }
+          },
           {
             label: '2024',
             command: () => {
@@ -129,9 +167,17 @@
               window.scrollTo(0, 0);
               this.forceRenderer();
             }
+          },
+          {
+            label: '2026',
+            command: () => {
+              this.currentYear = '2026';
+              window.scrollTo(0, 0);
+              this.forceRenderer();
+            }
           }
         ],
-        currentYear: '2025',
+        currentYear: '2026',
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       };
     },
