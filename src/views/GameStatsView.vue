@@ -30,7 +30,9 @@
                     </p-card>
                     <p-card class="shadow-8 mt-5" style="background:rgba(0, 0, 0, 0.4);">
                         <template #header>
-                            <p-image :src="getBannerUrl(topPlayedGame)" width="460"></p-image>
+                            <div v-for="item, index in topPlayedGame" v-bind:key="item.title">
+                                <p-image :src="getBannerUrl(item)" width="460"></p-image>
+                            </div>
                         </template>
                         <template #title>
                             <span class="flex text-4xl">
@@ -38,22 +40,22 @@
                             </span>
                         </template>
                         <template #content>
-                            <div class="flex flex-row justify-content-start align-items-center">
+                            <div v-for="item, index in topPlayedGame" v-bind:key="item.title" class="flex flex-row justify-content-start align-items-center">
                                 <div class="flex flex-row justify-content-center align-items-center">
                                     <div class="flex flex-column justify-content-center align-items-center mr-3">
                                         <div class="mr-0">
-                                            <p-image :src="getIconUrl(topPlayedGame)" width="32"></p-image>
+                                            <p-image :src="getIconUrl(item)" width="32"></p-image>
                                         </div>
                                     </div>
                                     <div class="flex flex-column justify-content-center">
                                         <div class="flex flex-row">
                                             <span class="flex text-2xl">
-                                                {{ topPlayedGame.title }}
+                                                {{ item.title }}
                                             </span>
                                         </div>
                                         <div class="flex flex-row mt-1">
                                             <span class="flex text-lg">
-                                                {{ topPlayedGame.hours }} hours
+                                                {{ item.hours }} hours
                                             </span>
                                         </div>
                                     </div>
@@ -160,6 +162,7 @@
 // Completed this year table? Maybe better on other page
 import axios from "axios";
 import Gradient from "javascript-color-gradient";
+import { getBannerUrl, getIconUrl, getGames } from "@/scripts/utils";
 export default {
     name: "GameStatsView",
     components: {
@@ -201,24 +204,13 @@ export default {
             this.currentGenre = "All";
             this.genreRatings["All"] = [0,0,0,0,0,0,0,0,0,0];
             this.topFiveGenres = [];
-            this.topPlayedGame = {};
+            this.topPlayedGame = [];
             this.loading = true;
             this.games = null;
             var totalGamesWithGenre = 0;
             this.totalPlaytime = 0;
             this.topTenPlaytime = [];
-            const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
-            const { data } = await axios.get(request);
-            var input = data.values
-            const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
-            this.games = input.reduce(function(acc, cur, i) {
-                var test = cur.reduce(function(acc, cur, i) {
-                acc[keys[i]] = cur;
-                return acc;
-                }, {});
-                acc[i] = test;
-                return acc;
-            }, []);
+            this.games = await getGames();
             this.loading = false;
             var genreArr = [];
             this.games.forEach((item) => {
@@ -274,8 +266,7 @@ export default {
             this.totalPlaytime = Math.round(this.totalPlaytime * 10) / 10
 
             this.topTenPlaytime.sort((a,b) => Number(b.hours) - Number(a.hours));
-            console.log(this.topTenPlaytime);
-            this.topPlayedGame = this.topTenPlaytime[0];
+            this.topPlayedGame.push(this.topTenPlaytime[0]);
             this.topTenPlaytime.shift();
             
             var sortable = Object.entries(this.genres)
@@ -538,29 +529,8 @@ export default {
                 },
             }
         }, 
-        getIconUrl(data) {
-            var icon;
-            if(data.steamId != null && data.steamId != ""){
-                var id = data.steamId;
-                var hash = data.steamIcon;
-                icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
-            }else{
-                var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-                icon = "/game_assets/icons/"+title+"_icon.png";
-            }
-            return icon;
-        },
-        getBannerUrl(data) {
-            var banner;
-            if(data.steamId != null && data.steamId != ""){
-                var id = data.steamId;
-                banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
-            }else{
-                var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-                banner = "/game_assets/banners/"+title+"_banner.png";
-            }
-            return banner;
-        },
+        getIconUrl,
+        getBannerUrl,
         formatTags(value) {
             return value.split(", ");
         },
