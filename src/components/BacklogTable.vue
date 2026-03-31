@@ -31,6 +31,7 @@
 </template>
     
 <script>
+import { getBannerUrl, getGames } from "@/scripts/utils";
   export default {
     name: "BacklogTable",
     props: ['gameData'],
@@ -44,29 +45,7 @@
   
     },
     methods: {
-      getBannerUrl(data) {
-        var banner;
-        if(data.steamId != null && data.steamId != ""){
-          var id = data.steamId;
-          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-          banner = "/game_assets/banners/"+title+"_banner.png";
-        }
-        return banner;
-      },
-      getGamePageUrl(data) {
-        var gamePage;
-        if(data.steamId != null && data.steamId != ""){
-          var id = data.steamId;
-          var title = data.title.replace(/ /g,"_").replace(/'/g, '');
-          gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"-").replace(/'/g, '');
-          gamePage = "https://store.epicgames.com/en-US/p/"+title;
-        }
-        return gamePage;
-      },
+      getBannerUrl,
       getHLTBPageUrl(data) {
         var title = data.title.replace(/— /g,"").replace(/- /g,"").replace(/ /g,"%2520").replace(/'/g, '').replace(/:/g, '').replace(/™/g, '').toLowerCase();
         var hLTBPage = "https://howlongtobeat.com/?q="+title;

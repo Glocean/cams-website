@@ -189,7 +189,6 @@
       async getGames() {
         this.loading = true;
         this.games = await getGames();
-        console.log(this.games);
         this.games.forEach((item) => {
           if(item.date){
             this.years.forEach((year) => {

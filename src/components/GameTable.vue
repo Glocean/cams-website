@@ -86,7 +86,7 @@
                     <span>{{ slotProps.data.title }}</span>
                     <p-button v-if="slotProps.data.steamId" severity="info" text link aria-label="Steam" v-tooltip.bottom="{ value: 'Steam Page' }">
                       <template #icon>
-                        <a :href="getSteamPageUrl(slotProps.data)" target="_blank">
+                        <a :href="getGamePageUrl(slotProps.data)" target="_blank">
                           <font-awesome-icon class="text-2xl" icon="fa-brands fa-steam" color="grey" />
                         </a>
                       </template>
@@ -129,6 +129,7 @@
   
 <script>
   import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
+  import { getBannerUrl, getGamePageUrl, getIconUrl } from "@/scripts/utils";
   
   export default {
     name: "GameView",
@@ -303,38 +304,9 @@
 
         }
       },
-      getIconUrl(data) {
-        var icon;
-        if(data.steamIcon != null && data.steamIcon != ""){
-          var id = data.steamId;
-          var hash = data.steamIcon;
-          icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-          icon = "/game_assets/icons/"+title+"_icon.png";
-        }
-        return icon;
-      },
-      getBannerUrl(data) {
-        var banner;
-        if(data.steamId != null && data.steamId != ""){
-          var id = data.steamId;
-          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-          banner = "/game_assets/banners/"+title+"_banner.png";
-        }
-        return banner;
-      },
-      refresh() {
-        this.$emit('refresh-data');
-      },
-      getSteamPageUrl(data) {
-        var id = data.steamId;
-        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
-        var steamPage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
-        return steamPage;
-      },
+      getIconUrl,
+      getBannerUrl,
+      getGamePageUrl,
       getMetacriticPageUrl(data) {
         var title = data.title.replace(/— /g,"").replace(/- /g,"").replace(/ /g,"-").replace(/'/g, '').replace(/:/g, '').replace(/™/g, '').toLowerCase();
         var metacriticPage = "https://www.metacritic.com/game/"+title+"/";
@@ -354,6 +326,9 @@
         if(gameData.title != ""){
           this.showReviewDialogVal = true;
         }
+      },
+      refresh() {
+        this.$emit('refresh-data');
       },
     },
   };

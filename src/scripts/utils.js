@@ -29,6 +29,19 @@ function getGamePageUrl(data) {
     return gamePage;
 }
 
+function getIconUrl(data) {
+    var icon;
+    if(data.steamIcon != null && data.steamIcon != ""){
+        var id = data.steamId;
+        var hash = data.steamIcon;
+        icon = "http://media.steampowered.com/steamcommunity/public/images/apps/"+id+"/"+hash+".jpg";
+    }else{
+        var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+        icon = "/game_assets/icons/"+title+"_icon.png";
+    }
+    return icon;
+}
+
 async function getGames() {
     const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
     const { data } = await axios.get(request);
@@ -45,4 +58,4 @@ async function getGames() {
     return games;
 }
 
-export { getBannerUrl, getGamePageUrl, getGames };
+export { getBannerUrl, getGamePageUrl, getIconUrl, getGames };
