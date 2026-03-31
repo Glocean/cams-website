@@ -63,6 +63,7 @@
   // TODO: Make images links/add more details (playtime) to timeline
   // TODO: Add little icon/banner that shows 100% completion
   import axios from "axios";
+  import { getBannerUrl } from "@/scripts/utils";
   
   export default {
     name: "Timeline",
@@ -296,17 +297,7 @@
         }
         return icon;
       },
-      getBannerUrl(data) {
-        var banner;
-        if(data.steamId != null && data.steamId != ""){
-          var id = data.steamId;
-          banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
-          banner = "/game_assets/banners/"+title+"_banner.png";
-        }
-        return banner;
-      },
+      getBannerUrl,
       getGamePageUrl(data) {
         var gamePage;
         if(data.steamId != null && data.steamId != ""){
