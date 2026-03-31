@@ -3,11 +3,18 @@ import axios from "axios";
 // function for fetching the steam banner url
 function getBannerUrl(data) {
     var banner;
+    console.log(data);
     
     // if there's a steam id, then fetch the banner image from steam
     if(data.steamId != null && data.steamId != ""){
-        var id = data.steamId;
-        banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        if(data.banner_hash != null && data.banner_hash != ""){
+            var id = data.steamId;
+            var hash = data.banner_hash;
+            banner = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/"+id+"/"+hash+"/header.jpg"; 
+        }else{
+            var id = data.steamId;
+            banner = "https://cdn.akamai.steamstatic.com/steam/apps/"+id+"/header.jpg";
+        }
     }else{
         // if it's not a steam game, grab the image locally
         var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
@@ -43,10 +50,10 @@ function getIconUrl(data) {
 }
 
 async function getGames() {
-    const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
+    const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:L?key='+import.meta.env.VITE_API_KEY
     const { data } = await axios.get(request);
     var input = data.values
-    const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
+    const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes", "banner_hash"];
     var games = input.reduce(function(acc, cur, i) {
         var test = cur.reduce(function(acc, cur, i) {
         acc[keys[i]] = cur;
