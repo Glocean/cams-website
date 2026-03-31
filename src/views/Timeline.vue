@@ -63,7 +63,7 @@
   // TODO: Make images links/add more details (playtime) to timeline
   // TODO: Add little icon/banner that shows 100% completion
   import axios from "axios";
-  import { getBannerUrl } from "@/scripts/utils";
+  import { getBannerUrl, getGamePageUrl, getGames } from "@/scripts/utils";
   
   export default {
     name: "Timeline",
@@ -73,8 +73,6 @@
       return {
         componentKey: 0,
         games: null,
-        currentlyPlaying: [],
-        backlog: [],
         filters: null,
         statuses: ['Backlog', 'Finished', '100%', 'Abandoned', 'In Progress'],
         ratings: ['Bad', 'Ok', 'Good', 'Great', 'Love'],
@@ -187,23 +185,11 @@
     mounted() {
     },
     methods: {
+      // this getGames function is different because it divides the games according to years they were beaten
       async getGames() {
         this.loading = true;
-        this.games = null;
-        this.currentlyPlaying = [];
-        this.backlog = [];
-        const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
-        const { data } = await axios.get(request);
-        var input = data.values
-        const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
-        this.games = input.reduce(function(acc, cur, i) {
-          var test = cur.reduce(function(acc, cur, i) {
-            acc[keys[i]] = cur;
-            return acc;
-          }, {});
-          acc[i] = test;
-          return acc;
-        }, []);
+        this.games = await getGames();
+        console.log(this.games);
         this.games.forEach((item) => {
           if(item.date){
             this.years.forEach((year) => {
@@ -235,11 +221,6 @@
                 }
               }
             })
-          }
-          if (item.completion == "In Progress") {
-            this.currentlyPlaying.push(item)
-          }else if (item.completion == "Backlog") {
-            this.backlog.push(item)
           }
         });
         var swap = false;
@@ -298,18 +279,7 @@
         return icon;
       },
       getBannerUrl,
-      getGamePageUrl(data) {
-        var gamePage;
-        if(data.steamId != null && data.steamId != ""){
-          var id = data.steamId;
-          var title = data.title.replace(/ /g,"_").replace(/'/g, '');
-          gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
-        }else{
-          var title = data.title.toLowerCase().replace(/ /g,"-").replace(/'/g, '');
-          gamePage = "https://store.epicgames.com/en-US/p/"+title;
-        }
-        return gamePage;
-      },
+      getGamePageUrl,
       compareDates( a, b ) {
         const firstDate = new Date(a.date);
         const secondDate = new Date(b.date)

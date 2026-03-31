@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // function for fetching the steam banner url
 function getBannerUrl(data) {
     var banner;
@@ -14,4 +16,33 @@ function getBannerUrl(data) {
     return banner;
 }
 
-export { getBannerUrl };
+function getGamePageUrl(data) {
+    var gamePage;
+    if(data.steamId != null && data.steamId != ""){
+        var id = data.steamId;
+        var title = data.title.replace(/ /g,"_").replace(/'/g, '');
+        gamePage = "https://store.steampowered.com/app/"+id+"/"+title+"/";
+    }else{
+        var title = data.title.toLowerCase().replace(/ /g,"-").replace(/'/g, '');
+        gamePage = "https://store.epicgames.com/en-US/p/"+title;
+    }
+    return gamePage;
+}
+
+async function getGames() {
+    const request = 'https://sheets.googleapis.com/v4/spreadsheets/1gbykEEXRHrIWTfl6gPrcxXjGZ6BndlAUxWrRcyHIp68/values/A2:K?key='+import.meta.env.VITE_API_KEY
+    const { data } = await axios.get(request);
+    var input = data.values
+    const keys = ["title", "completion", "date", "hours", "genre", "rating", "reccomend", "return", "steamId", "steamIcon", "notes"];
+    var games = input.reduce(function(acc, cur, i) {
+        var test = cur.reduce(function(acc, cur, i) {
+        acc[keys[i]] = cur;
+        return acc;
+        }, {});
+        acc[i] = test;
+        return acc;
+    }, []);
+    return games;
+}
+
+export { getBannerUrl, getGamePageUrl, getGames };
