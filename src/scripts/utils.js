@@ -3,7 +3,7 @@ import axios from "axios";
 // function for fetching the steam banner url
 function getBannerUrl(data) {
     var banner;
-    console.log(data);
+    //console.log(data);
     
     // if there's a steam id, then fetch the banner image from steam
     if(data.steamId != null && data.steamId != ""){
