@@ -17,7 +17,7 @@ function getBannerUrl(data) {
         }
     }else{
         // if it's not a steam game, grab the image locally
-        var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '');
+        var title = data.title.toLowerCase().replace(/ /g,"_").replace(/'/g, '').replace(/:/g, '');
         banner = "/game_assets/banners/"+title+"_banner.png";
     }
     return banner;
