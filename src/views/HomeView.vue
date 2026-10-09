@@ -1,72 +1,73 @@
 <template>
-  <div class="home flex flex-row flex-wrap">
-    <div class="flex flex-column col-2 fadein animation-ease-in animation-duration-1000 flex-wrap" style="height: 50%;"></div>
-    <div class="flex flex-column col-6 fadein animation-ease-in animation-duration-1000 flex-wrap"> 
-      <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
-        <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/wedding.jpg"/>
-        <div class="flex flex-column m-8">
-          <div class="flex flex-row align-items-center justify-content-center name">Cameron Dahr</div>
-          <div class="flex flex-row align-items-center justify-content-center m-3">
-            <p-divider class="my-divider w-10"/>
-          </div>
-          <div class="flex flex-row align-items-center justify-content-around flex-wrap">
-            <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
-              <template #icon>
-                <a href="https://github.com/Glocean" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-github" color="white" />
-                </a>
-              </template>
-            </p-button>
-            <p-button severity="info" text link aria-label="LinkedIn" v-tooltip.bottom="{ value: 'LinkedIn' }">
-              <template #icon>
-                <a href="https://www.linkedin.com/in/cameron-dahr-8a943a129/" target="_blank">
-                  <font-awesome-icon class="text-4xl" icon="fa-brands fa-linkedin" color="white" />
-                </a>
-              </template>
-            </p-button>
-            <p-button severity="warning" text link aria-label="LetterBoxd" v-tooltip.bottom="{ value: 'Letterboxd' }">
-              <template #icon>
-                <a href="https://letterboxd.com/Glocean/" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-square-letterboxd" color="white" />
-                </a>
-              </template>
-            </p-button>
-            <p-button severity="success" text aria-label="Facebook" v-tooltip.bottom="{ value: 'Facebook' }">
-              <template #icon>
-                <a href="https://www.facebook.com/cameron.dahr.1" target="_blank">
-                  <font-awesome-icon class="text-4xl" icon="fa-brands fa-square-facebook" color="white"/>
-                </a>
-              </template>
-            </p-button>
-            <p-button severity="help" text aria-label="Twitch" v-tooltip.bottom="{ value: 'Twitch' }">
-              <template #icon>
-                <a href="https://www.twitch.tv/glocean" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-twitch" color="white"/>
-                </a>
-              </template>
-            </p-button>
-            <p-button severity="danger" text aria-label="Youtube" v-tooltip.bottom="{ value: 'YouTube' }">
-              <template #icon>
-                <a href="https://www.youtube.com/@GloceanTTV" target="_blank">
-                  <font-awesome-icon class="text-3xl" icon="fa-brands fa-youtube" color="white"/>
-                </a>
-              </template>
-            </p-button>
+  <div class="home">
+    <div class="flex flex-row flex-wrap align-items-center justify-content-center" style="margin-top: 50px;">
+      <div class="flex flex-column col-6 fadein animation-ease-in animation-duration-1000 flex-wrap"> 
+        <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
+          <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/wedding.jpg"/>
+          <div class="flex flex-column m-8">
+            <div class="flex flex-row align-items-center justify-content-center name">Cameron Dahr</div>
+            <div class="flex flex-row align-items-center justify-content-center m-3">
+              <p-divider class="my-divider w-10"/>
+            </div>
+            <div class="flex flex-row align-items-center justify-content-around flex-wrap">
+              <p-button severity="contrast" text link rounded aria-label="GitHub" v-tooltip.bottom="{ value: 'GitHub' }">
+                <template #icon>
+                  <a href="https://github.com/Glocean" target="_blank">
+                    <font-awesome-icon class="text-3xl" icon="fa-brands fa-github" color="white" />
+                  </a>
+                </template>
+              </p-button>
+              <p-button severity="info" text link aria-label="LinkedIn" v-tooltip.bottom="{ value: 'LinkedIn' }">
+                <template #icon>
+                  <a href="https://www.linkedin.com/in/cameron-dahr-8a943a129/" target="_blank">
+                    <font-awesome-icon class="text-4xl" icon="fa-brands fa-linkedin" color="white" />
+                  </a>
+                </template>
+              </p-button>
+              <p-button severity="warning" text link aria-label="LetterBoxd" v-tooltip.bottom="{ value: 'Letterboxd' }">
+                <template #icon>
+                  <a href="https://letterboxd.com/Glocean/" target="_blank">
+                    <font-awesome-icon class="text-3xl" icon="fa-brands fa-square-letterboxd" color="white" />
+                  </a>
+                </template>
+              </p-button>
+              <p-button severity="success" text aria-label="Facebook" v-tooltip.bottom="{ value: 'Facebook' }">
+                <template #icon>
+                  <a href="https://www.facebook.com/cameron.dahr.1" target="_blank">
+                    <font-awesome-icon class="text-4xl" icon="fa-brands fa-square-facebook" color="white"/>
+                  </a>
+                </template>
+              </p-button>
+              <p-button severity="help" text aria-label="Twitch" v-tooltip.bottom="{ value: 'Twitch' }">
+                <template #icon>
+                  <a href="https://www.twitch.tv/glocean" target="_blank">
+                    <font-awesome-icon class="text-3xl" icon="fa-brands fa-twitch" color="white"/>
+                  </a>
+                </template>
+              </p-button>
+              <p-button severity="danger" text aria-label="Youtube" v-tooltip.bottom="{ value: 'YouTube' }">
+                <template #icon>
+                  <a href="https://www.youtube.com/@GloceanTTV" target="_blank">
+                    <font-awesome-icon class="text-3xl" icon="fa-brands fa-youtube" color="white"/>
+                  </a>
+                </template>
+              </p-button>
+            </div>
           </div>
         </div>
+        <div class="flex flex-row align-items-left justify-content-center m-5">
+          <p-card class="shadow-5 text-left" style="width: 100%;background:rgba(0, 0, 0, 0.5);">
+            <template #content>
+              <p class="card-text pl-3">
+                Hi, my name is Cameron, and I am a Software Development Engineer in Test. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue 3 to learn about web deployment. My hobbies include playing video games, collecting board games and dice, reading/writing, and playing Tabletop RPGs. I enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above). I also really love the ocean; I hope to one day learn to scuba dive and my favorite animal is an octopus!
+              </p>
+            </template>
+          </p-card>
+        </div>
       </div>
-      <div class="flex flex-row align-items-left justify-content-center m-5">
-        <p-card class="shadow-5 text-left" style="width: 100%;background:rgba(0, 0, 0, 0.5);">
-          <template #content>
-            <p class="card-text pl-3">
-              Hi, my name is Cameron, and I am a Software Development Engineer in Test. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue 3 to learn about web deployment. My hobbies include playing video games, collecting board games and dice, reading/writing, and playing Tabletop RPGs. I enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above). I also really love the ocean; I hope to one day learn to scuba dive and my favorite animal is an octopus!
-            </p>
-          </template>
-        </p-card>
+      <div class="flex flex-column fadein animation-ease-in animation-duration-1000 flex-wrap" style="height: 55%;">
+        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/40c18EykvcHJ5rlIZ9Dem7?utm_source=generator&theme=0&si=31be77520444439c" width="450vh" height="700vh" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
-    </div>
-    <div class="flex flex-column fadein animation-ease-in animation-duration-1000 flex-wrap" style="height: 55%;">
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/40c18EykvcHJ5rlIZ9Dem7?utm_source=generator&theme=0&si=31be77520444439c" width="450vh" height="700vh" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
   <!-- not as good as the spotify imbed
