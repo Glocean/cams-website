@@ -442,7 +442,7 @@ export default {
                 labels: this.genreLabels.slice(0,30),
                 datasets: [
                     {
-                        label: "Genres",
+                        label: "Games",
                         backgroundColor: gradientArray,
                         data: this.genreCounts.slice(0,30),
                         borderWidth: 1,
