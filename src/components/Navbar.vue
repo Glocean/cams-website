@@ -74,6 +74,7 @@ export default {
 .navbar {
     border-radius: 0px !important;
     border: 0px !important;
+    background: #18181b00 !important;
 }
 
 .logo {

@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <div class="flex flex-column align-items-center justify-content-center fadein animation-ease-in animation-duration-1000">  
+  <div class="home flex flex-row">
+    <div class="flex flex-column fadein animation-ease-in animation-duration-1000"> 
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
         <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/wedding.jpg"/>
         <div class="flex flex-column m-8">
@@ -53,6 +53,9 @@
             </p-button>
           </div>
         </div>
+        <div class="flex flex-column">
+          <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/40c18EykvcHJ5rlIZ9Dem7?utm_source=generator&theme=0&si=31be77520444439c" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
       </div>
       <div class="flex flex-row align-items-left justify-content-center m-5">
         <p-card class="shadow-5 text-left" style="width: 45%;background:rgba(0, 0, 0, 0.5);">
@@ -65,13 +68,25 @@
       </div>
     </div>
   </div>
+  <!-- not as good as the spotify imbed
+  <vue-sound
+    title="No Bad days"
+    title-link="https://open.spotify.com/playlist/40c18EykvcHJ5rlIZ9Dem7?si=r7NbdtcRRVWJq-NpOjagSQ"
+    details="Macklemore (feat. Collett)"
+    details-link="https://open.spotify.com/playlist/40c18EykvcHJ5rlIZ9Dem7?si=r7NbdtcRRVWJq-NpOjagSQ"
+    file="../music/no_bad_days.mp3"
+  />
+  -->
 </template>
 
 <script>
+import { VueSound } from 'vue-sound';
+import 'vue-sound/style.css';
 
 export default {
   name: "HomeView",
   components: {
+    VueSound
   },
 };
 </script>
