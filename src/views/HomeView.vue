@@ -1,6 +1,7 @@
 <template>
-  <div class="home flex flex-row">
-    <div class="flex flex-column fadein animation-ease-in animation-duration-1000"> 
+  <div class="home flex flex-row flex-wrap">
+    <div class="flex flex-column col-2 fadein animation-ease-in animation-duration-1000 flex-wrap" style="height: 50%;"></div>
+    <div class="flex flex-column col-6 fadein animation-ease-in animation-duration-1000 flex-wrap"> 
       <div class="flex flex-row align-items-center justify-content-center flex-wrap m-2">
         <p-avatar class="h-25rem w-25rem shadow-6" shape="circle" image="/wedding.jpg"/>
         <div class="flex flex-column m-8">
@@ -53,12 +54,9 @@
             </p-button>
           </div>
         </div>
-        <div class="flex flex-column">
-          <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/40c18EykvcHJ5rlIZ9Dem7?utm_source=generator&theme=0&si=31be77520444439c" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
       </div>
       <div class="flex flex-row align-items-left justify-content-center m-5">
-        <p-card class="shadow-5 text-left" style="width: 45%;background:rgba(0, 0, 0, 0.5);">
+        <p-card class="shadow-5 text-left" style="width: 100%;background:rgba(0, 0, 0, 0.5);">
           <template #content>
             <p class="card-text pl-3">
               Hi, my name is Cameron, and I am a Software Development Engineer in Test. I graduated from the University of New Brunswick in May of 2020 with a degree in Software Engineering. This is the landing page for the website I made using Vue 3 to learn about web deployment. My hobbies include playing video games, collecting board games and dice, reading/writing, and playing Tabletop RPGs. I enjoy watching movies, and log movies I watch on Letterboxd (link to my profile above). I also really love the ocean; I hope to one day learn to scuba dive and my favorite animal is an octopus!
@@ -66,6 +64,9 @@
           </template>
         </p-card>
       </div>
+    </div>
+    <div class="flex flex-column fadein animation-ease-in animation-duration-1000 flex-wrap" style="height: 55%;">
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/40c18EykvcHJ5rlIZ9Dem7?utm_source=generator&theme=0&si=31be77520444439c" width="450vh" height="700vh" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
   <!-- not as good as the spotify imbed
